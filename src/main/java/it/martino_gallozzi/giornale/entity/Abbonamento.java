@@ -13,4 +13,11 @@ public class Abbonamento {
     private String scadenza;
     private String argomento;
     private String data;
+
+    public Abbonamento(String codice, String scadenza, String argomento, String data) {
+        this.codice = codice;
+        this.scadenza = scadenza;
+        this.argomento = argomento;
+        this.data = data;
+    }
 }

@@ -13,4 +13,8 @@ la lista può essere modificata senza bloccare il programma
 public class Argomento {
     @Id
     private String nome;
+
+    public Argomento(String nome) {
+        this.nome = nome;
+    }
 }

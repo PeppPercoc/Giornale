@@ -13,4 +13,11 @@ public class Pubblicazione {
     private String titolo;
     private String periodicita;
     private String prezzo;
+
+    public Pubblicazione(String codice, String titolo, String periodicita, String prezzo) {
+        this.codice = codice;
+        this.titolo = titolo;
+        this.periodicita = periodicita;
+        this.prezzo = prezzo;
+    }
 }

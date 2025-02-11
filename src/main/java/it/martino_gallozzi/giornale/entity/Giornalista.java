@@ -12,4 +12,10 @@ public class Giornalista {
     private String id;
     private String nome;
     private String annoIscrizioneAlbo;
+
+    public Giornalista(String id, String nome, String annoIscrizioneAlbo) {
+        this.id = id;
+        this.nome = nome;
+        this.annoIscrizioneAlbo = annoIscrizioneAlbo;
+    }
 }
