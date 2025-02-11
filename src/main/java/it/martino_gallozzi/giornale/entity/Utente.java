@@ -2,6 +2,7 @@ package it.martino_gallozzi.giornale.entity;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -15,6 +16,7 @@ public class Utente {
     private String indirizzo;
     private String citta;
     private String cap;
+    @Indexed(unique = true)
     private String email;
     private String password;
 }
