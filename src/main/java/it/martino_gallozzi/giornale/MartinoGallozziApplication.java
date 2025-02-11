@@ -1,4 +1,4 @@
-package it.Martino_Gallozzi.Martino_Gallozzi;
+package it.martino_gallozzi.giornale;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

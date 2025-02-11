@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'it.Martino-Gallozzi.Martino-Gallozzi' is invalid and this project uses 'it.Martino_Gallozzi.Martino_Gallozzi' instead.
+* The original package name 'it.Martino-Gallozzi.Martino-Gallozzi' is invalid and this project uses 'it.martino_gallozzi.giornale' instead.
 
 # Getting Started
 
