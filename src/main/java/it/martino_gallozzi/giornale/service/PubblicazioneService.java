@@ -8,4 +8,13 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class PubblicazioneService {
     private final PubblicazioneRepository pubblicazioneRepository;
+
+    //CREATE
+
+    //READ
+
+    //UPDATE
+
+    //DELETE
+
 }

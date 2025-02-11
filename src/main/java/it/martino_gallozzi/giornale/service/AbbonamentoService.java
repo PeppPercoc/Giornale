@@ -7,4 +7,13 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class AbbonamentoService {
     private final AbbonamentoService abbonamentoService;
+
+    //CREATE
+
+    //READ
+
+    //UPDATE
+
+    //DELETE
+
 }

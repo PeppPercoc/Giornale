@@ -12,7 +12,7 @@ import java.util.Optional;
 public class UtenteService {
     private final UtenteRepository utenteRepository;
 
-    //Create
+    //CREATE
     public Utente insertUtente(Utente utente) {
         utenteRepository.findUtenteByEmail(utente.getEmail()).ifPresentOrElse(s -> {
             System.out.println("User " + s + " already exists");
@@ -22,7 +22,7 @@ public class UtenteService {
         });
         return utente;
     }
-    //Read
+    //READ
     public Utente getUtentetById(String utenteId) {
         Optional<Utente> utente = utenteRepository.findById(utenteId);
         return utente.orElse(null);
@@ -32,9 +32,9 @@ public class UtenteService {
         Optional<Utente> utente = utenteRepository.findUtenteByEmail(utenteEmail);
         return utente.orElse(null);
     }
-    //Update
+    //UPDATE
 
-    //Delete
+    //DELETE
     public String deleteUtenteById(String utenteId) {
         if (utenteRepository.existsById(utenteId)) {
             utenteRepository.deleteById(utenteId);

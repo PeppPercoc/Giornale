@@ -8,4 +8,13 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class GiornalistaService {
     private final GiornalistaRepository giornalistaRepository;
+
+    //CREATE
+
+    //READ
+
+    //UPDATE
+
+    //DELETE
+
 }
