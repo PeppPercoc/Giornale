@@ -12,4 +12,10 @@ public class Articolo {
     private String id;
     private String titolo;
     private String testo;
+
+    public Articolo(String id, String titolo, String testo) {
+        this.id = id;
+        this.titolo = titolo;
+        this.testo = testo;
+    }
 }
