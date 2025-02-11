@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface ArticoloRepository extends MongoRepository<Articolo, String> {
-    Optional<Articolo> findByTitolo(String titolo);
+    Optional<Articolo> findArticoloByTitolo(String titolo);
 }
