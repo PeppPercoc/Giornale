@@ -9,13 +9,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 public class Abbonamento {
     @Id
-    private String codice;
+    private String id;
     private String scadenza;
     private String argomento;
     private String data;
 
-    public Abbonamento(String codice, String scadenza, String argomento, String data) {
-        this.codice = codice;
+    public Abbonamento(String id, String scadenza, String argomento, String data) {
+        this.id = id;
         this.scadenza = scadenza;
         this.argomento = argomento;
         this.data = data;
