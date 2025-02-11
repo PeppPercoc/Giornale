@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GiornalistaRepository extends MongoRepository<Giornalista, String> {
-    Optional<List<Giornalista>> findByNome(String nome);
+    Optional<List<Giornalista>> findGiornalistaByNome(String nome);
 }
