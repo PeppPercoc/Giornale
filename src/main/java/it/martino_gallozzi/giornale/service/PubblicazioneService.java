@@ -24,14 +24,14 @@ public class PubblicazioneService {
         return pubblicazione;
     }
     //READ
-    public Pubblicazione getUtentetById(String pubblicazioneId) {
+    public Pubblicazione getPubblicazioneById(String pubblicazioneId) {
         Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findById(pubblicazioneId);
         return pubblicazione.orElse(null);
     }
     //UPDATE
 
     //DELETE
-    public String deletepubblicazioneById(String pubblicazioneId) {
+    public String deletePubblicazioneById(String pubblicazioneId) {
         if (pubblicazioneRepository.existsById(pubblicazioneId)) {
             pubblicazioneRepository.deleteById(pubblicazioneId);
             return "Publication " + pubblicazioneId + " deleted";
