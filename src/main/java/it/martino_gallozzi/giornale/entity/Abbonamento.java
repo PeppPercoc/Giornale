@@ -15,11 +15,11 @@ public class Abbonamento {
     @Id
     private String argomento;
     private String periodicita;
-    private Map<Utente, LocalDateTime> utentiIscritti;
+    private Map<Utente, LocalDateTime> listaUtenti;
 
-    public Abbonamento( String scadenza, String argomento, String periodicita, Map utentiIscritti) {
+    public Abbonamento( String scadenza, String argomento, String periodicita, Map listaUtenti) {
         this.argomento = argomento;
         this.periodicita = periodicita;
-        this.utentiIscritti = utentiIscritti;
+        this.listaUtenti = listaUtenti;
     }
 }

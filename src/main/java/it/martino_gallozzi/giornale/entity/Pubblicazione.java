@@ -4,7 +4,9 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Document
@@ -15,11 +17,13 @@ public class Pubblicazione {
     private String titolo;
     private String prezzo;
     private List<Articolo> listaArticoli;
+    private Map<Utente, LocalDateTime> listaUtenti;
 
-    public Pubblicazione(String id, String titolo, String prezzo,List<Articolo> listaAricoli) {
+    public Pubblicazione(String id, String titolo, String prezzo,List<Articolo> listaAricoli, Map listautenti) {
         this.id = id;
         this.titolo = titolo;
         this.prezzo = prezzo;
         this.listaArticoli = listaAricoli;
+        this.listaUtenti = listaUtenti;
     }
 }

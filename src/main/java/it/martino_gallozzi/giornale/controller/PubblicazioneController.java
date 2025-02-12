@@ -18,10 +18,10 @@ public class PubblicazioneController {
         return pubblicazioneService.insertPubblicazione(pubblicazione);
     }
 
-    @GetMapping("get-by-id/{pubblicazioneId}")
-    public Pubblicazione getPubblicazioneById(@PathVariable String pubblicazioneId) {
+    @GetMapping("get-by-id/{pubblicazioneTitolo}")
+    public Pubblicazione getPubblicazioneByTitolo(@PathVariable String pubblicazioneTitolo) {
 
-        Pubblicazione pubblicazione = pubblicazioneService.getPubblicazioneById(pubblicazioneId);
+        Pubblicazione pubblicazione = pubblicazioneService.getPubblicazioneByTitolo(pubblicazioneTitolo);
         if(pubblicazione!=null){
             return pubblicazione;
         }else return null;
