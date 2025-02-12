@@ -4,20 +4,22 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Map;
+
 @Data
 @Document
 
 public class Abbonamento {
     @Id
-    private String id;
-    private String scadenza;
     private String argomento;
-    private String data;
+    private String periodicita;
+    private Map<Utente, LocalDateTime> utentiIscritti;
 
-    public Abbonamento(String id, String scadenza, String argomento, String data) {
-        this.id = id;
-        this.scadenza = scadenza;
+    public Abbonamento( String scadenza, String argomento, String periodicita, Map utentiIscritti) {
         this.argomento = argomento;
-        this.data = data;
+        this.periodicita = periodicita;
+        this.utentiIscritti = utentiIscritti;
     }
 }
