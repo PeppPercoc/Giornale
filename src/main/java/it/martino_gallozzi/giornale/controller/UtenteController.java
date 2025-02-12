@@ -21,7 +21,7 @@ public class UtenteController {
     @GetMapping("get-by-id/{utenteId}")
     public Utente getUtenteById(@PathVariable String utenteId) {
 
-        Utente utente = utenteService.getUtentetById(utenteId);
+        Utente utente = utenteService.getUtenteById(utenteId);
         if(utente!=null){
             return utente;
         }else return null;

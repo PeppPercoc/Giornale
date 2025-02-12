@@ -23,12 +23,12 @@ public class UtenteService {
         return utente;
     }
     //READ
-    public Utente getUtentetById(String utenteId) {
+    public Utente getUtenteById(String utenteId) {
         Optional<Utente> utente = utenteRepository.findById(utenteId);
         return utente.orElse(null);
     }
 
-    public Utente getUtentetByEmail(String utenteEmail) {
+    public Utente getUtenteByEmail(String utenteEmail) {
         Optional<Utente> utente = utenteRepository.findUtenteByEmail(utenteEmail);
         return utente.orElse(null);
     }
