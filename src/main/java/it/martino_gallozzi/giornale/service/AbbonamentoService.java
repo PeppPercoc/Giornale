@@ -31,9 +31,9 @@ public class AbbonamentoService {
         return abbonamento.orElse(null);
     }
 
-    public Map<Utente, LocalDateTime> getUsersByArgomento(String abbonamentoArgomento){
-        Optional<Map<Utente,LocalDateTime>> listaUtenti = abbonamentoRepository.findUsersByArgomento(abbonamentoArgomento);
-        return listaUtenti.orElse(null);
+    public Map<String, LocalDateTime> getUsersByArgomento(String abbonamentoArgomento){
+        Optional<Map<String,LocalDateTime>> listaUtentiId = abbonamentoRepository.findUsersByArgomento(abbonamentoArgomento);
+        return listaUtentiId.orElse(null);
     }
 
     //UPDATE

@@ -31,11 +31,11 @@ public class AbbonamentoController {
     }
 
     @GetMapping("get-users-by-argomento/{abbonamentoArgomento}")
-    public Map<Utente, LocalDateTime> getUsersByArgomento(@PathVariable String abbonamentoArgomento) {
+    public Map<String, LocalDateTime> getUsersByArgomento(@PathVariable String abbonamentoArgomento) {
 
-        Map<Utente, LocalDateTime> listaAbbonamenti = abbonamentoService.getUsersByArgomento(abbonamentoArgomento);
-        if(listaAbbonamenti!=null){
-            return listaAbbonamenti;
+        Map<String, LocalDateTime> listaAbbonamentiId = abbonamentoService.getUsersByArgomento(abbonamentoArgomento);
+        if(listaAbbonamentiId!=null){
+            return listaAbbonamentiId;
         }else return null;
     }
 
