@@ -16,6 +16,7 @@ public class Pubblicazione {
     private String id;
     private String titolo;
     private String prezzo;
+    private String argomento;
     private List<String> listaArticoliId;
     private List<String> listaUtentiId;
 

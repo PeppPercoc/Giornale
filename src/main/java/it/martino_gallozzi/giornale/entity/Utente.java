@@ -20,7 +20,8 @@ public class Utente {
     private String email;
     private String password;
 
-    public Utente(String id, String nome, String cognome, String indirizzo, String citta, String cap, String email, String password) {
+    public Utente(String id, String nome, String cognome, String indirizzo,
+                  String citta, String cap, String email, String password) {
         this.id = id;
         this.nome = nome;
         this.cognome = cognome;
