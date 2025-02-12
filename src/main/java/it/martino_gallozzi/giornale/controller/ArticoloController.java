@@ -18,7 +18,7 @@ public class ArticoloController {
         return articoloService.insertArticolo(articolo);
     }
 
-    @GetMapping("get-by-id/{articoloTitolo}")
+    @GetMapping("get-by-titolo/{articoloTitolo}")
     public Articolo getArticoloById(@PathVariable String articoloTitolo) {
 
         Articolo articolo = articoloService.getArticoloByTitolo(articoloTitolo);

@@ -1,14 +1,12 @@
 package it.martino_gallozzi.giornale.controller;
 
 import it.martino_gallozzi.giornale.entity.Abbonamento;
-import it.martino_gallozzi.giornale.entity.Giornalista;
 import it.martino_gallozzi.giornale.entity.Utente;
 import it.martino_gallozzi.giornale.service.AbbonamentoService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 
@@ -19,12 +17,12 @@ public class AbbonamentoController {
     private final AbbonamentoService abbonamentoService;
 
     @PostMapping("insert-abbonamento")
-    public Abbonamento insertGiornalista(@RequestBody Abbonamento abbonamento) {
+    public Abbonamento insertAbbonamento(@RequestBody Abbonamento abbonamento) {
         return abbonamentoService.insertAbbonamento(abbonamento);
     }
 
-    @GetMapping("get-by-argomento/{gabbonamentoArgomento}")
-    public Abbonamento getGiornalistaById(@PathVariable String abbonamentoArgomento){
+    @GetMapping("get-by-argomento/{abbonamentoArgomento}")
+    public Abbonamento getAbbonamentoByArgomento(@PathVariable String abbonamentoArgomento){
 
         Abbonamento abbonamento = abbonamentoService.getAbbonamentoByArgomento(abbonamentoArgomento);
         if(abbonamento!=null){
@@ -32,7 +30,7 @@ public class AbbonamentoController {
         }else return null;
     }
 
-    @GetMapping("get-users-by-argomento/{gabbonamentoArgomento}")
+    @GetMapping("get-users-by-argomento/{abbonamentoArgomento}")
     public Map<Utente, LocalDateTime> getUsersByArgomento(@PathVariable String abbonamentoArgomento) {
 
         Map<Utente, LocalDateTime> listaAbbonamenti = abbonamentoService.getUsersByArgomento(abbonamentoArgomento);
