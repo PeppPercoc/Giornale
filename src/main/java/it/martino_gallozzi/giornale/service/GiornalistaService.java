@@ -24,12 +24,12 @@ public class GiornalistaService {
         return giornalista;
     }
     //READ
-    public Giornalista getGiornalistatById(String giornalistaId) {
+    public Giornalista getGiornalistaById(String giornalistaId) {
         Optional<Giornalista> giornalista = giornalistaRepository.findById(giornalistaId);
         return giornalista.orElse(null);
     }
 
-    public List<Giornalista> getGiornalistatByName(String giornalistaNome) {
+    public List<Giornalista> getGiornalistaByName(String giornalistaNome) {
         Optional<List<Giornalista>> listaGiornalista = giornalistaRepository.findGiornalistaByNome(giornalistaNome);
         return listaGiornalista.orElse(null);
     }
