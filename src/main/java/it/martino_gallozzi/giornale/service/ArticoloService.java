@@ -39,4 +39,7 @@ public class ArticoloService {
             return "Article " + articoloTitolo + " deleted";
         } else return "Article title is not present in database";
     }
+
+    //todo: read the article
+    //todo: add Giornalista
 }

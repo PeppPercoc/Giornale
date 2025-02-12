@@ -45,4 +45,7 @@ public class AbbonamentoService {
             return "Subscription " + abbonamentoArgomento + " deleted";
         } else return "Subscription arguments is not present in database";
     }
+
+    //todo: sign up subscription (add a Utente to subscribers list)
+    //todo: cancel subscription (remove a Utente to subscribers list)
 }
