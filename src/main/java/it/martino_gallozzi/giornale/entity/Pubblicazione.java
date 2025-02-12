@@ -16,14 +16,14 @@ public class Pubblicazione {
     private String id;
     private String titolo;
     private String prezzo;
-    private List<Articolo> listaArticoli;
-    private List<Utente> listaUtenti;
+    private List<String> listaArticoliId;
+    private List<String> listaUtentiId;
 
-    public Pubblicazione(String id, String titolo, String prezzo,List<Articolo> listaAricoli, List<Utente> listautenti) {
+    public Pubblicazione(String id, String titolo, String prezzo,List listaAricoliId, List listaUtentiId) {
         this.id = id;
         this.titolo = titolo;
         this.prezzo = prezzo;
-        this.listaArticoli = listaAricoli;
-        this.listaUtenti = listaUtenti;
+        this.listaArticoliId = listaArticoliId;
+        this.listaUtentiId = listaUtentiId;
     }
 }
