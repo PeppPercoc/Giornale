@@ -30,7 +30,7 @@ public class UtenteController {
     @GetMapping("get-by-id/{utenteEmail}")
     public Utente getUtenteByEmail(@PathVariable String utenteEmail) {
 
-        Utente utente = utenteService.getUtentetByEmail(utenteEmail);
+        Utente utente = utenteService.getUtenteByEmail(utenteEmail);
         if(utente!=null){
             return utente;
         }else return null;
