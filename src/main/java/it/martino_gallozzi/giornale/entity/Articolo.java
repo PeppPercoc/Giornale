@@ -13,11 +13,11 @@ public class Articolo {
     @Id
     private String titolo;
     private String testo;
-    private List<Giornalista> listaGiornalisti;
+    private List<String> listaGiornalistiId;
 
-    public Articolo(String titolo, String testo, List<Giornalista> listaGiornalisti) {
+    public Articolo(String titolo, String testo, List listaGiornalistiId) {
         this.titolo = titolo;
         this.testo = testo;
-        this.listaGiornalisti = listaGiornalisti;
+        this.listaGiornalistiId = listaGiornalistiId;
     }
 }
