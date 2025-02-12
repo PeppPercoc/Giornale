@@ -29,7 +29,7 @@ public class GiornalistaController {
     }
 
     @GetMapping("get-by-name/{giornalistaName}")
-    public List<Giornalista> getGiornalistaByEmail(@PathVariable String giornalistaName) {
+    public List<Giornalista> getGiornalistaByName(@PathVariable String giornalistaName) {
 
         List<Giornalista> listaGiornalisti = giornalistaService.getGiornalistaByName(giornalistaName);
         if(listaGiornalisti!=null){
