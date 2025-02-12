@@ -24,8 +24,8 @@ public class PubblicazioneService {
         return pubblicazione;
     }
     //READ
-    public Pubblicazione getPubblicazioneById(String pubblicazioneId) {
-        Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findById(pubblicazioneId);
+    public Pubblicazione getPubblicazioneByTitolo(String pubblicazioneTitolo) {
+        Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findPubblicazioneByTitolo(pubblicazioneTitolo);
         return pubblicazione.orElse(null);
     }
     //UPDATE
