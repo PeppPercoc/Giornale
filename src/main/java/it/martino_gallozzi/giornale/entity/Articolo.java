@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Data
 @Document
 
@@ -11,11 +13,11 @@ public class Articolo {
     @Id
     private String titolo;
     private String testo;
-    private Giornalista giornalista;
+    private List<Giornalista> listaGiornalisti;
 
-    public Articolo(String titolo, String testo, Giornalista giornalista) {
+    public Articolo(String titolo, String testo, List<Giornalista> listaGiornalisti) {
         this.titolo = titolo;
         this.testo = testo;
-        this.giornalista = giornalista;
+        this.listaGiornalisti = listaGiornalisti;
     }
 }

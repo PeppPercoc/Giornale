@@ -40,6 +40,6 @@ public class ArticoloService {
         } else return "Article title is not present in database";
     }
 
-    //todo: read the article
+    //todo: read Articolo.testo
     //todo: add Giornalista
 }
