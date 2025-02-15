@@ -25,9 +25,9 @@ public class ArticoloService {
         return articolo;
     }
     //READ
-    public Articolo getArticoloByTitolo(String articoloTitolo){
-        Optional<Articolo> articolo = articoloRepository.findArticoloByTitolo(articoloTitolo);
-        return articolo.orElse(null);
+    public List<Articolo> getArticoloByTitolo(String articoloTitolo){
+        Optional<List<Articolo>> listaArticolo = articoloRepository.findArticoloByTitolo(articoloTitolo);
+        return listaArticolo.orElse(null);
     }
 
     //UPDATE

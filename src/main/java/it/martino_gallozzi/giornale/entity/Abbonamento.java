@@ -17,7 +17,7 @@ public class Abbonamento {
     private String periodicita;
     private Map<String, LocalDateTime> listaUtentiId;
 
-    public Abbonamento( String scadenza, String argomento, String periodicita, Map listaUtentiId) {
+    public Abbonamento(String argomento, String periodicita, Map listaUtentiId) {
         this.argomento = argomento;
         this.periodicita = periodicita;
         this.listaUtentiId = listaUtentiId;

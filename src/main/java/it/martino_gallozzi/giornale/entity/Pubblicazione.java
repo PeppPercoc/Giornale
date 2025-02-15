@@ -18,9 +18,9 @@ public class Pubblicazione {
     private String prezzo;
     private String argomento;
     private List<String> listaArticoliId;
-    private List<String> listaUtentiId;
+    private Map<String, LocalDateTime> listaUtentiId;
 
-    public Pubblicazione(String id, String titolo, String prezzo,List listaAricoliId, List listaUtentiId) {
+    public Pubblicazione(String id, String titolo, String prezzo,List listaAricoliId, Map listaUtentiId) {
         this.id = id;
         this.titolo = titolo;
         this.prezzo = prezzo;

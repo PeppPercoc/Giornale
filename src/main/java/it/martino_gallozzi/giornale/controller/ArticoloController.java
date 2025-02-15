@@ -5,6 +5,7 @@ import it.martino_gallozzi.giornale.service.ArticoloService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -19,11 +20,11 @@ public class ArticoloController {
     }
 
     @GetMapping("get-by-titolo/{articoloTitolo}")
-    public Articolo getArticoloById(@PathVariable String articoloTitolo) {
+    public List<Articolo> getArticoloById(@PathVariable String articoloTitolo) {
 
-        Articolo articolo = articoloService.getArticoloByTitolo(articoloTitolo);
-        if(articolo!=null){
-            return articolo;
+        List<Articolo> listaArticoli = articoloService.getArticoloByTitolo(articoloTitolo);
+        if(listaArticoli!=null){
+            return listaArticoli;
         }else return null;
     }
 

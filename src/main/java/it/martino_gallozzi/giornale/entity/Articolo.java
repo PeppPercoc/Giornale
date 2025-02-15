@@ -11,11 +11,13 @@ import java.util.List;
 
 public class Articolo {
     @Id
+    private String id;
     private String titolo;
     private String testo;
     private List<String> listaGiornalistiId;
 
-    public Articolo(String titolo, String testo, List listaGiornalistiId) {
+    public Articolo(String id, String titolo, String testo, List listaGiornalistiId) {
+        this.id = id;
         this.titolo = titolo;
         this.testo = testo;
         this.listaGiornalistiId = listaGiornalistiId;
