@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface GiornalistaRepository extends MongoRepository<Giornalista, String> {
     Optional<List<Giornalista>> findGiornalistaByNome(String nome);
+
+    long countByIdIn(List<String> listaGiornalistiId);
 }
