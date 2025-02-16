@@ -51,5 +51,4 @@ public class UtenteService {
         } else return "User id is not present in database";
     }
 
-    //todo: login
 }

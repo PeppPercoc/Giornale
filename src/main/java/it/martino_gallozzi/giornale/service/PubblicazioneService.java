@@ -47,5 +47,8 @@ public class PubblicazioneService {
     }
 
     //todo: add a Utente to buyers list
+    //todo: stampa utenti
+    //todo: controllare che quando inserisco una pubblicazione la lista degli utenti sia vuota
+    //todo: controllare che quando inserisco una pubblicazione tutti gli id di articolo esistano
     //todo: read the list of the Articoli inside the Pubblicazione
 }

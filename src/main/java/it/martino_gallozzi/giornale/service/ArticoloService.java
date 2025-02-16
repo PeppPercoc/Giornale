@@ -50,6 +50,7 @@ public class ArticoloService {
         } else return "Article title is not present in database";
     }
 
-    //todo: read Articolo.testo
     //todo: add Giornalista
+    //todo: controllare che quando inserisco un articolo l'id di giornalista esiste
+    //todo: controllare che qaundo aggiorno l'id di giornalista esiste
 }

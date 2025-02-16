@@ -55,5 +55,7 @@ public class AbbonamentoService {
     }
 
     //todo: sign up subscription (add a Utente to subscribers list)
+    //todo: controllare quando creo un nuovo abbonamento che la lista utente sia vuota
+    //todo: controllare che quando aggiorno l'abbonmento la lista utenti non sia stata toccata
     //todo: cancel subscription (remove a Utente to subscribers list)
 }
