@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.beans.Transient;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +29,7 @@ public class ArticoloService {
         return count == listaGiornalistiId.size();
     }
 
-    @Transactional
+    @Transactional //rispetta proprietà acid
     public Articolo insertArticolo(Articolo articolo) {
         boolean giornalistiValidi = verificaGiornalistiEsistenti(articolo.getListaGiornalistiId());
 
