@@ -33,4 +33,8 @@ public class ArticoloController {
         return articoloService.deleteArticoloById(id.get("id"));
     }
 
+    @PutMapping("update")
+    public Articolo updateArticolo(@RequestBody Articolo articolo) {
+        return articoloService.updateArticolo(articolo);
+    }
 }

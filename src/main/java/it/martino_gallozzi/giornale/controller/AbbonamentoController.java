@@ -1,7 +1,6 @@
 package it.martino_gallozzi.giornale.controller;
 
 import it.martino_gallozzi.giornale.entity.Abbonamento;
-import it.martino_gallozzi.giornale.entity.Utente;
 import it.martino_gallozzi.giornale.service.AbbonamentoService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -43,4 +42,10 @@ public class AbbonamentoController {
     public String deleteAbbonamento(@RequestBody Map<String, String> id) {
         return abbonamentoService.deleteAbbonamentoById(id.get("id"));
     }
+
+    @PutMapping("update")
+    public Abbonamento updateAbbonamento(@RequestBody Abbonamento abbonamento) {
+        return abbonamentoService.updateAbbonamento(abbonamento);
+    }
+
 }

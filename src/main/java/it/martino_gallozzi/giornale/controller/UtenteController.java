@@ -41,4 +41,9 @@ public class UtenteController {
         return utenteService.deleteUtenteById(id.get("id"));
     }
 
+    @PutMapping("update")
+    public Utente updateUtente(@RequestBody Utente utente) {
+        return utenteService.updateUtente(utente);
+    }
+
 }

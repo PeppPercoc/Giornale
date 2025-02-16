@@ -41,4 +41,9 @@ public class GiornalistaController {
     public String deleteGiornalista(@RequestBody Map<String, String> id) {
         return giornalistaService.deleteGiornalistaById(id.get("id"));
     }
+
+    @PutMapping("update")
+    public Giornalista updateGiornalista(@RequestBody Giornalista giornalista) {
+        return giornalistaService.updateGiornalista(giornalista);
+    }
 }

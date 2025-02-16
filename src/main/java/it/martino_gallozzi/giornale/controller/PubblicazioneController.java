@@ -32,4 +32,8 @@ public class PubblicazioneController {
         return pubblicazioneService.deletePubblicazioneById(id.get("id"));
     }
 
+    @PutMapping("update")
+    public Pubblicazione updatePubblicazione(@RequestBody Pubblicazione pubblicazione) {
+        return pubblicazioneService.updatePubblicazione(pubblicazione);
+    }
 }
