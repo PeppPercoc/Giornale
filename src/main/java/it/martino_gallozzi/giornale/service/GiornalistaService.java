@@ -34,7 +34,16 @@ public class GiornalistaService {
         return listaGiornalista.orElse(null);
     }
     //UPDATE
+    public Giornalista updateGiornalista(Giornalista giornalista) {
+        Optional<Giornalista> existingGiornalista = giornalistaRepository.findById(giornalista.getId());
 
+        if (existingGiornalista.isPresent()) {
+            System.out.println("Student " + giornalista.getId() + " updated");
+            return giornalistaRepository.save(giornalista);
+        } else {
+            return null;
+        }
+    }
     //DELETE
     public String deleteGiornalistaById(String giornalistaId) {
         if (giornalistaRepository.existsById(giornalistaId)) {

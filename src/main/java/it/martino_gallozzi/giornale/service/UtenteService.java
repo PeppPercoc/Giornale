@@ -33,7 +33,16 @@ public class UtenteService {
         return utente.orElse(null);
     }
     //UPDATE
+    public Utente updateUtente(Utente utente) {
+        Optional<Utente> existingUtente = utenteRepository.findById(utente.getId());
 
+        if (existingUtente.isPresent()) {
+            System.out.println("Student " + utente.getId() + " updated");
+            return utenteRepository.save(utente);
+        } else {
+            return null;
+        }
+    }
     //DELETE
     public String deleteUtenteById(String utenteId) {
         if (utenteRepository.existsById(utenteId)) {

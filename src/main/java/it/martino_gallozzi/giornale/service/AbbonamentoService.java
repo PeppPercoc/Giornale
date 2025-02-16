@@ -1,7 +1,6 @@
 package it.martino_gallozzi.giornale.service;
 
 import it.martino_gallozzi.giornale.entity.Abbonamento;
-import it.martino_gallozzi.giornale.entity.Utente;
 import it.martino_gallozzi.giornale.repository.AbbonamentoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,7 +36,16 @@ public class AbbonamentoService {
     }
 
     //UPDATE
+    public Abbonamento updateAbbonamento(Abbonamento abbonamento) {
+        Optional<Abbonamento> existingAbbonamento = abbonamentoRepository.findById(abbonamento.getArgomento());
 
+        if (existingAbbonamento.isPresent()) {
+            System.out.println("Student " + abbonamento.getArgomento() + " updated");
+            return abbonamentoRepository.save(abbonamento);
+        } else {
+            return null;
+        }
+    }
     //DELETE
     public String deleteAbbonamentoById(String abbonamentoArgomento) {
         if (abbonamentoRepository.existsById(abbonamentoArgomento)) {

@@ -1,7 +1,6 @@
 package it.martino_gallozzi.giornale.service;
 
 import it.martino_gallozzi.giornale.entity.Articolo;
-import it.martino_gallozzi.giornale.entity.Giornalista;
 import it.martino_gallozzi.giornale.repository.ArticoloRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +30,17 @@ public class ArticoloService {
     }
 
     //UPDATE
+    public Articolo updateArticolo(Articolo articolo) {
+        Optional<Articolo> existingArticolo = articoloRepository.findById(articolo.getId());
+
+        if (existingArticolo.isPresent()) {
+            System.out.println("Student " + articolo.getId() + " updated");
+            return articoloRepository.save(articolo);
+        } else {
+            return null;
+        }
+    }
+
 
     //DELETE
     public String deleteArticoloById(String articoloTitolo) {
