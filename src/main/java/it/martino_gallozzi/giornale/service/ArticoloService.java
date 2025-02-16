@@ -52,6 +52,7 @@ public class ArticoloService {
     }
 
     //UPDATE
+    @Transactional
     public Articolo updateArticolo(Articolo articolo) {
         Optional<Articolo> existingArticolo = articoloRepository.findById(articolo.getId());
 
