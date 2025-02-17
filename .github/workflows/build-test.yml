@@ -12,6 +12,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      mongo:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
+        env:
+          MONGO_INITDB_ROOT_USERNAME: rootuser
+          MONGO_INITDB_ROOT_PASSWORD: rootpass
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -22,21 +31,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Start Docker Compose
-        run: docker compose up --build -d
-
       - name: Wait for MongoDB to be ready
         run: sleep 20
 
       - name: Build Project
         run: mvn clean package
-
-      - name: Run Tests
-        run: mvn test
-
-      - name: Stop Docker Compose
-        if: always()
-        run: docker compose down
 
       - name: Run Project
         run: mvn install -DskipTests
