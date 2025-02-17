@@ -31,8 +31,5 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Wait for MongoDB to be ready
-        run: sleep 20
-
       - name: Run Project
         run: mvn install -DskipTests
