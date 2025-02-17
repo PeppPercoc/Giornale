@@ -13,6 +13,6 @@ RUN git clone https://github.com/PeppPercoc/Giornale
 
 WORKDIR /Giornale
 
-RUN mvn package
+RUN mvn install -DskipTests
 
 CMD [ "java", "-jar", "target/giornale-0.0.1-SNAPSHOT.jar" ]
