@@ -22,18 +22,14 @@ public class UtenteController {
     public Utente getUtenteById(@PathVariable String utenteId) {
 
         Utente utente = utenteService.getUtenteById(utenteId);
-        if(utente!=null){
-            return utente;
-        }else return null;
+        return utente;
     }
 
     @GetMapping("get-by-email/{utenteEmail}")
     public Utente getUtenteByEmail(@PathVariable String utenteEmail) {
 
         Utente utente = utenteService.getUtenteByEmail(utenteEmail);
-        if(utente!=null){
-            return utente;
-        }else return null;
+        return utente;
     }
 
     @DeleteMapping("delete")

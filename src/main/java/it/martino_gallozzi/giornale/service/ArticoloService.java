@@ -29,7 +29,7 @@ public class ArticoloService {
         return count == listaGiornalistiId.size();
     }
 
-    @Transactional //rispetta proprietà acid
+     //rispetta proprietà acid
     public Articolo insertArticolo(Articolo articolo) {
         boolean giornalistiValidi = verificaGiornalistiEsistenti(articolo.getListaGiornalistiId());
 
@@ -52,7 +52,7 @@ public class ArticoloService {
     }
 
     //UPDATE
-    @Transactional
+
     public Articolo updateArticolo(Articolo articolo) {
         Optional<Articolo> existingArticolo = articoloRepository.findById(articolo.getId());
 
