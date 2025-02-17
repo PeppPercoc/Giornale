@@ -15,7 +15,7 @@ ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ENV PATH="$JAVA_HOME/bin:$PATH"
 RUN git clone --branch release --single-branch https://github.com/PeppPercoc/Giornale.git progetto && cd progetto && mvn clean install -DskipTests && ls -l target/
 
-WORKDIR /target
+WORKDIR /progetto/target
 
 ENV TZ=Europe/Rome
 
