@@ -22,6 +22,12 @@ jobs:
       - name: Extract version from tag
         id: tag_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Set up JDK 17 (Amazon Corretto)
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adoptopenjdk'
         
       - name: Build and push Docker image
         run: |
