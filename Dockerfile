@@ -21,4 +21,4 @@ ENV TZ=Europe/Rome
 
 EXPOSE 8080
 
-ENTRYPOINT ["sh", "-c","java", "-jar", "*.jar"]
+ENTRYPOINT ["sh", "-c","java", "-jar", "giornale-0.0.1SNAPSHOT.jar"]
