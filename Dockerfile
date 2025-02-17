@@ -13,12 +13,10 @@ RUN apt-get update && apt-get install -y \
 
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ENV PATH="$JAVA_HOME/bin:$PATH"
-RUN git clone --branch release --single-branch https://github.com/PeppPercoc/Giornale.git progetto && cd progetto && mvn clean install -DskipTests
+RUN git clone --branch release --single-branch https://github.com/PeppPercoc/Giornale.git && mvn clean install -DskipTests
 
-WORKDIR /app/progetto/target
-
-ENV TZ=Europe/Rome
+WORKDIR /target
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "*.jar"]
+ENTRYPOINT ["sh", "-c","java", "-jar", "*.jar"]
