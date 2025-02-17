@@ -25,10 +25,10 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/newspaper:${{ env.VERSION }} .
-          docker push ${{ secrets.DOCKER_USERNAME }}/newspaper:${{ env.VERSION }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/giornale:${{ env.VERSION }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/giornale:${{ env.VERSION }}
 
       - name: Tag as latest and push
         run: |
-          docker tag ${{ secrets.DOCKER_USERNAME }}/newspaper:${{ env.VERSION }} ${{ secrets.DOCKER_USERNAME }}/newspaper:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/newspaper:latest
+          docker tag ${{ secrets.DOCKER_USERNAME }}/giornale:${{ env.VERSION }} ${{ secrets.DOCKER_USERNAME }}/giornale:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/giornale:latest
