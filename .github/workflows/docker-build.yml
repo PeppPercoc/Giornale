@@ -1,0 +1,42 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - release
+    tags:
+      - 'v*'
+  workflow_dispatch:  # Permette di avviare il workflow manualmente
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        if: startsWith(github.ref, 'refs/tags/')
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push Docker Image (Latest)
+        run: |
+          docker build -t pepppercoc/giornale:latest .
+          docker push pepppercoc/giornale:latest
+        if: github.ref == 'refs/heads/release'  # Esegui solo per branch release
+
+      - name: Build and Push Docker Image (Versioned)
+        run: |
+          docker build -t pepppercoc/giornale:${{ env.VERSION }} .
+          docker push pepppercoc/giornale:${{ env.VERSION }}
+          docker tag pepppercoc/giornale:${{ env.VERSION }} pepppercoc/giornale:latest
+          docker push pepppercoc/giornale:latest
+        if: startsWith(github.ref, 'refs/tags/')  # Esegui solo per i tag
