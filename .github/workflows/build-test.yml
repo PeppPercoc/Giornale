@@ -22,8 +22,21 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Start Docker Compose
+        run: docker compose up --build -d
+
+      - name: Wait for MongoDB to be ready
+        run: sleep 20
+
       - name: Build Project
         run: mvn clean package
+
+      - name: Run Tests
+        run: mvn test
+
+      - name: Stop Docker Compose
+        if: always()
+        run: docker compose down
 
       - name: Run Project
         run: mvn install -DskipTests
