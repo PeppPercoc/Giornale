@@ -23,6 +23,12 @@ jobs:
         id: tag_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
+      - name: Set up JDK 17 (Amazon Corretto)
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adoptopenjdk'
+        
       - name: Build and push Docker image
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/giornale:${{ env.VERSION }} .
@@ -32,3 +38,4 @@ jobs:
         run: |
           docker tag ${{ secrets.DOCKER_USERNAME }}/giornale:${{ env.VERSION }} ${{ secrets.DOCKER_USERNAME }}/giornale:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/giornale:latest
+
