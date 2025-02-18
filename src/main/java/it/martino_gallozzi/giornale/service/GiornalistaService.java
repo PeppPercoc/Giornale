@@ -38,7 +38,7 @@ public class GiornalistaService {
         Optional<Giornalista> existingGiornalista = giornalistaRepository.findById(giornalista.getId());
 
         if (existingGiornalista.isPresent()) {
-            System.out.println("Student " + giornalista.getId() + " updated");
+            System.out.println("Journalist " + giornalista.getId() + " updated");
             return giornalistaRepository.save(giornalista);
         } else {
             return null;

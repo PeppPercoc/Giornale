@@ -43,7 +43,7 @@ public class AbbonamentoService {
         Optional<Abbonamento> existingAbbonamento = abbonamentoRepository.findById(abbonamento.getArgomento());
 
         if (existingAbbonamento.isPresent()) {
-            System.out.println("Student " + abbonamento.getArgomento() + " updated");
+            System.out.println("Subscription " + abbonamento.getArgomento() + " updated");
             return abbonamentoRepository.save(abbonamento);
         } else {
             return null;
@@ -57,14 +57,24 @@ public class AbbonamentoService {
         } else return "Subscription arguments is not present in database";
     }
 
-    public String cancelSubscriptionById(String abbonamentoArgomento, String utenteId){
-       if(abbonamentoRepository.existsById(abbonamentoArgomento)) {
-
-
-           return "Subscription cancelled";
-       }
-       else return "Utent not found, cancellation denied";
-    }
+//    public String cancelSubscriptionById(String abbonamentoArgomento, String utenteId){
+//       if(abbonamentoRepository.existsById(abbonamentoArgomento)) {
+//           if(abbonamentoRepository.findUsersByArgomento(abbonamentoArgomento)
+//                   .map(list -> list.contains(utenteId)).orElse(false)) {
+//
+//               abbonamentoRepository.findByArgomento(abbonamentoArgomento)
+//                       .ifPresent(abbonamento -> {
+//                           abbonamento.getListaUtentiId().remove(utenteId);
+//                           abbonamentoRepository.save(abbonamento);
+//                       });
+//               return "Subscription cancelled";
+//           } else {
+//               return "User not subscribed, cancellation denied";
+//           }
+//       } else {
+//           return "Subscription not found, cancellation denied";
+//       }
+//    }
 
     //todo: sign up subscription (add a Utente to subscribers list)
     //todo: controllare quando creo un nuovo abbonamento che la lista utente sia vuota

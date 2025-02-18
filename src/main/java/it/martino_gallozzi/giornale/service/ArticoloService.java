@@ -64,7 +64,7 @@ public class ArticoloService {
         }
 
         if (existingArticolo.isPresent()) {
-            System.out.println("Student " + articolo.getId() + " updated");
+            System.out.println("Article " + articolo.getId() + " updated");
             return articoloRepository.save(articolo);
         } else {
             return null;
@@ -84,7 +84,7 @@ public class ArticoloService {
         articolo.setListaGiornalistiId(listaGiornalisti);
 
         if (existingArticolo.isPresent()) {
-            System.out.println("Student " + articolo.getId() + " updated");
+            System.out.println("Article " + articolo.getId() + " updated");
             return articoloRepository.save(articolo);
         } else {
             return null;
