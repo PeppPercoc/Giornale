@@ -20,7 +20,7 @@ RUN mvn clean install
 
 WORKDIR /Giornale
 
-RUN mvn clean install -DskipTests
+RUN mvn clean install -DskipTests #skip test
 
 EXPOSE 8080
 
