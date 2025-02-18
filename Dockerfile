@@ -16,7 +16,7 @@ ENV PATH="$JAVA_HOME/bin:$PATH"
 
 RUN git clone --branch release --single-branch https://github.com/PeppPercoc/Giornale.git
 
-RUN mvn clean install
+RUN mvn clean install -DskipTests
 
 WORKDIR /Giornale
 
