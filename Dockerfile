@@ -22,7 +22,7 @@ RUN mvn install -DskipTests #skip test
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "target/giornale-0.0.1SNAPSHOT.jar"]
+CMD ["java", "-jar", "target/giornale-0.0.1SNAPSHOT.jar"]
 
 #FROM maven:3.9-amazoncorretto-17-alpine AS build
 #
