@@ -13,14 +13,30 @@ RUN apt-get update && apt-get install -y \
 
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 ENV PATH="$JAVA_HOME/bin:$PATH"
-RUN git clone --branch release --single-branch https://github.com/PeppPercoc/Giornale.git progetto && cd progetto && mvn clean install -DskipTests && ls -l target/
 
-RUN ls -l /progetto/target/
+RUN git clone --branch release --single-branch https://github.com/PeppPercoc/Giornale.git
 
-WORKDIR /progetto/target
+RUN mvn clean install
 
-ENV TZ=Europe/Rome
+WORKDIR /Giornale
+
+RUN mvn clean install
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "giornale-0.0.1SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "target/giornale-0.0.1SNAPSHOT.jar"]
+
+#FROM maven:3.9-amazoncorretto-17-alpine AS build
+#
+#WORKDIR /app
+#
+#RUN apk update && apk add --no-cache git
+#RUN git clone --branch release --single-branch https://github.com/PeppPercoc/Giornale.git progetto && cd progetto && mvn clean install -DskipTests
+#
+#WORKDIR /app/progetto/target
+#
+#ENV TZ=Europe/Rome
+#
+#EXPOSE 8080
+#
+#ENTRYPOINT ["java", "-jar", "giornale-0.0.1-SNAPSHOT.jar"]
