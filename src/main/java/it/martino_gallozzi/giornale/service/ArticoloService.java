@@ -52,7 +52,6 @@ public class ArticoloService {
     }
 
     //UPDATE
-
     public Articolo updateArticolo(Articolo articolo) {
         Optional<Articolo> existingArticolo = articoloRepository.findById(articolo.getId());
 
@@ -70,6 +69,25 @@ public class ArticoloService {
         }
     }
 
+    public Articolo updateGiornalistiArticolo(Articolo articolo, List<String> listaGiornalisti) {
+        Optional<Articolo> existingArticolo = articoloRepository.findById(articolo.getId());
+
+        boolean giornalistiValidi = verificaGiornalistiEsistenti(listaGiornalisti);
+
+        if (!giornalistiValidi) {
+            return null;
+        }
+
+        articolo.setListaGiornalistiId(listaGiornalisti);
+
+        if (existingArticolo.isPresent()) {
+            System.out.println("Student " + articolo.getId() + " updated");
+            return articoloRepository.save(articolo);
+        } else {
+            return null;
+        }
+    }
+
     //DELETE
     public String deleteArticoloById(String articoloTitolo) {
         if (articoloRepository.existsById(articoloTitolo)) {
@@ -77,6 +95,4 @@ public class ArticoloService {
             return "Article " + articoloTitolo + " deleted";
         } else return "Article title is not present in database";
     }
-
-    //todo: add Giornalista (tescnicamente si puo fare con update)
 }

@@ -37,4 +37,9 @@ public class ArticoloController {
     public Articolo updateArticolo(@RequestBody Articolo articolo) {
         return articoloService.updateArticolo(articolo);
     }
+
+    @PutMapping("update-writers")
+    public Articolo updateGiornalistiArticolo(@RequestBody Articolo articolo, List<String> listaGiornalisti) {
+        return articoloService.updateGiornalistiArticolo(articolo,listaGiornalisti);
+    }
 }
