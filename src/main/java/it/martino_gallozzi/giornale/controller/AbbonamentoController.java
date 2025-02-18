@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 
@@ -30,9 +31,9 @@ public class AbbonamentoController {
     }
 
     @GetMapping("get-users-by-argomento/{abbonamentoArgomento}")
-    public Map<String, LocalDateTime> getUsersByArgomento(@PathVariable String abbonamentoArgomento) {
+    public List<String> getUsersByArgomento(@PathVariable String abbonamentoArgomento) {
 
-        Map<String, LocalDateTime> listaAbbonamentiId = abbonamentoService.getUsersByArgomento(abbonamentoArgomento);
+        List<String> listaAbbonamentiId = abbonamentoService.getUsersByArgomento(abbonamentoArgomento);
         if(listaAbbonamentiId!=null){
             return listaAbbonamentiId;
         }else return null;

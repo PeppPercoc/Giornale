@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -15,9 +16,9 @@ public class Abbonamento {
     @Id
     private String argomento;
     private String periodicita;
-    private Map<String, LocalDateTime> listaUtentiId;
+    private List<String> listaUtentiId;
 
-    public Abbonamento(String argomento, String periodicita, Map listaUtentiId) {
+    public Abbonamento(String argomento, String periodicita, List listaUtentiId) {
         this.argomento = argomento;
         this.periodicita = periodicita;
         this.listaUtentiId = listaUtentiId;

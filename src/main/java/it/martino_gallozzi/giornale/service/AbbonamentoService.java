@@ -2,10 +2,12 @@ package it.martino_gallozzi.giornale.service;
 
 import it.martino_gallozzi.giornale.entity.Abbonamento;
 import it.martino_gallozzi.giornale.repository.AbbonamentoRepository;
+import it.martino_gallozzi.giornale.repository.UtenteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -13,6 +15,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class AbbonamentoService {
     private final AbbonamentoRepository abbonamentoRepository;
+    private final UtenteRepository utenteRepository;
 
     //CREATE
     public Abbonamento insertAbbonamento(Abbonamento abbonamento) {
@@ -30,8 +33,8 @@ public class AbbonamentoService {
         return abbonamento.orElse(null);
     }
 
-    public Map<String, LocalDateTime> getUsersByArgomento(String abbonamentoArgomento){
-        Optional<Map<String,LocalDateTime>> listaUtentiId = abbonamentoRepository.findUsersByArgomento(abbonamentoArgomento);
+    public List<String> getUsersByArgomento(String abbonamentoArgomento){
+        Optional<List<String>> listaUtentiId = abbonamentoRepository.findUsersByArgomento(abbonamentoArgomento);
         return listaUtentiId.orElse(null);
     }
 
@@ -52,6 +55,15 @@ public class AbbonamentoService {
             abbonamentoRepository.deleteById(abbonamentoArgomento);
             return "Subscription " + abbonamentoArgomento + " deleted";
         } else return "Subscription arguments is not present in database";
+    }
+
+    public String cancelSubscriptionById(String abbonamentoArgomento, String utenteId){
+       if(abbonamentoRepository.existsById(abbonamentoArgomento)) {
+
+
+           return "Subscription cancelled";
+       }
+       else return "Utent not found, cancellation denied";
     }
 
     //todo: sign up subscription (add a Utente to subscribers list)
