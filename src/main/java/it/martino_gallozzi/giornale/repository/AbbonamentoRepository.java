@@ -11,6 +11,5 @@ import java.util.Optional;
 @Repository
 public interface AbbonamentoRepository extends MongoRepository<Abbonamento, String> {
     Optional<Abbonamento> findByArgomento(String argomento);
-
     Optional<Map<String, LocalDateTime>> findUsersByArgomento (String argomento);
 }
