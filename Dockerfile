@@ -18,11 +18,11 @@ RUN git clone --branch release --single-branch https://github.com/PeppPercoc/Gio
 
 WORKDIR /Giornale
 
-RUN mvn install -DskipTests #skip test
+RUN mvn package -DskipTests #skip test
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "target/giornale-0.0.1SNAPSHOT.jar"]
+CMD ["java", "-jar", "target/giornale-0.0.1-SNAPSHOT.jar"]
 
 #FROM maven:3.9-amazoncorretto-17-alpine AS build
 #
