@@ -57,27 +57,37 @@ public class AbbonamentoService {
         } else return "Subscription arguments is not present in database";
     }
 
-//    public String cancelSubscriptionById(String abbonamentoArgomento, String utenteId){
-//       if(abbonamentoRepository.existsById(abbonamentoArgomento)) {
-//           if(abbonamentoRepository.findUsersByArgomento(abbonamentoArgomento)
-//                   .map(list -> list.contains(utenteId)).orElse(false)) {
+//    public String addSubscriptionById (String abbonamentoArgomento, String utenteId){
+//        Optional<Abbonamento> abbonamento = abbonamentoRepository.findById(abbonamentoArgomento);
 //
-//               abbonamentoRepository.findByArgomento(abbonamentoArgomento)
-//                       .ifPresent(abbonamento -> {
-//                           abbonamento.getListaUtentiId().remove(utenteId);
-//                           abbonamentoRepository.save(abbonamento);
-//                       });
-//               return "Subscription cancelled";
-//           } else {
-//               return "User not subscribed, cancellation denied";
-//           }
-//       } else {
-//           return "Subscription not found, cancellation denied";
-//       }
+//        if(abbonamento.isEmpty())
+//            return "Subscription not found, action denied";
+//
+//        if(abbonamento.get().getListaUtentiId().contains(utenteId))
+//            return "User already subscribed, action denied";
+//
+//        abbonamento.get().getListaUtentiId().add(utenteId);
+//        abbonamentoRepository.save(abbonamento.get());
+//        return "Subscription successful";
 //    }
+
+
+    // Rimuovi un utente dalla lista degli abbonati di un abbonamento
+    public String cancelSubscriptionById(String abbonamentoArgomento, String utenteId){
+       Optional<Abbonamento> abbonamento = abbonamentoRepository.findById(abbonamentoArgomento);
+
+       if(abbonamento.isEmpty())
+           return "Subscription not found, cancellation denied";
+
+       if(! abbonamento.get().getListaUtentiId().contains(utenteId))
+           return "User not subscribed, cancellation denied";
+
+        abbonamento.get().getListaUtentiId().remove(utenteId);
+        abbonamentoRepository.save(abbonamento.get());
+        return "Subscription cancelled";
+    }
 
     //todo: sign up subscription (add a Utente to subscribers list)
     //todo: controllare quando creo un nuovo abbonamento che la lista utente sia vuota
     //todo: controllare che quando aggiorno l'abbonmento la lista utenti non sia stata toccata
-    //todo: cancel subscription (remove a Utente to subscribers list)
 }
