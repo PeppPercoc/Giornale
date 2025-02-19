@@ -19,12 +19,15 @@ public class AbbonamentoService {
 
     //CREATE
     public Abbonamento insertAbbonamento(Abbonamento abbonamento) {
+        if(! abbonamento.getListaUtentiId().isEmpty())
+            abbonamento.getListaUtentiId().clear();
+
         abbonamentoRepository.findByArgomento(abbonamento.getArgomento()).ifPresentOrElse(s -> {
             System.out.println("Subscription " + s + " already exists");
-        }, () -> {
-            System.out.println("Inserting Subscription " + abbonamento);
-            abbonamentoRepository.insert(abbonamento);
-        });
+            }, () -> {
+                System.out.println("Inserting Subscription " + abbonamento);
+                abbonamentoRepository.insert(abbonamento);
+            });
         return abbonamento;
     }
     //READ
@@ -57,6 +60,7 @@ public class AbbonamentoService {
         } else return "Subscription arguments is not present in database";
     }
 
+    // Aggiungi un utente dalla lista degli abbonati di un abbonamento
     public String addSubscriptionById (String abbonamentoArgomento, String utenteId){
         Optional<Abbonamento> abbonamento = abbonamentoRepository.findById(abbonamentoArgomento);
 
@@ -87,7 +91,6 @@ public class AbbonamentoService {
         return "Subscription cancelled";
     }
 
-    //todo: sign up subscription (add a Utente to subscribers list)
     //todo: controllare quando creo un nuovo abbonamento che la lista utente sia vuota
     //todo: controllare che quando aggiorno l'abbonmento la lista utenti non sia stata toccata
 }
