@@ -35,7 +35,7 @@ jobs:
 
       - name: Send Telegram Notification
         run: |
-          MESSAGE="Nuova release disponibile!  *Versione:* ${{ env.VERSION }}  *Docker Image:* pepppercoc/giornale:${{ env.VERSION }}  Scaricala da Docker Hub: [clicca qui](https://hub.docker.com/r/pepppercoc/giornale)"
+          MESSAGE="Nuova release disponibile\\!  *Versione:* ${{ env.VERSION }}  *Docker Image:* pepppercoc/giornale:${{ env.VERSION }}  Scaricala da Docker Hub: [clicca qui](https://hub.docker.com/r/pepppercoc/giornale)"
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             -d parse_mode="MarkdownV2" \
