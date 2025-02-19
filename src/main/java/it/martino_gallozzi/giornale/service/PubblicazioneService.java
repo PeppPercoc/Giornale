@@ -1,11 +1,14 @@
 package it.martino_gallozzi.giornale.service;
 
 import it.martino_gallozzi.giornale.entity.Pubblicazione;
+import it.martino_gallozzi.giornale.entity.Utente;
 import it.martino_gallozzi.giornale.repository.PubblicazioneRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -62,7 +65,20 @@ public class PubblicazioneService {
         return "User added with success";
     }
 
-    //todo: stampa utenti
+    @Transactional
+    public List<String> getUsersListById(String pubblicazioneId){
+        Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findById(pubblicazioneId);
+
+        if(pubblicazione.isEmpty()) {
+            System.out.println("Publication not found, action denied");
+            return null;
+        }
+
+        List usersList = new ArrayList<>(pubblicazione.get().getListaUtentiId());
+
+        return usersList;
+    }
+
     //todo: controllare che quando inserisco una pubblicazione la lista degli utenti sia vuota
     //todo: controllare che quando inserisco una pubblicazione tutti gli id di articolo esistano
     //todo: read the list of the Articoli inside the Pubblicazione
