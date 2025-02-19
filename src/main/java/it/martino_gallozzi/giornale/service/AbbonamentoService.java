@@ -46,9 +46,16 @@ public class AbbonamentoService {
         Optional<Abbonamento> existingAbbonamento = abbonamentoRepository.findById(abbonamento.getArgomento());
 
         if (existingAbbonamento.isPresent()) {
-            System.out.println("Subscription " + abbonamento.getArgomento() + " updated");
-            return abbonamentoRepository.save(abbonamento);
+            if(existingAbbonamento.get().getListaUtentiId().equals(abbonamento.getListaUtentiId())) {
+                System.out.println("Subscription " + abbonamento.getArgomento() + " updated");
+                return abbonamentoRepository.save(abbonamento);
+            }
+            else{
+                System.out.println("Update denied: impossible to modify users list");
+                return null;
+            }
         } else {
+            System.out.println("Update denied: subscription not found");
             return null;
         }
     }
@@ -90,7 +97,4 @@ public class AbbonamentoService {
         abbonamentoRepository.save(abbonamento.get());
         return "Subscription cancelled";
     }
-
-    //todo: controllare quando creo un nuovo abbonamento che la lista utente sia vuota
-    //todo: controllare che quando aggiorno l'abbonmento la lista utenti non sia stata toccata
 }
