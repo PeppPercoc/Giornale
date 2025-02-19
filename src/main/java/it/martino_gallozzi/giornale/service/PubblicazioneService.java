@@ -4,6 +4,7 @@ import it.martino_gallozzi.giornale.entity.Pubblicazione;
 import it.martino_gallozzi.giornale.repository.PubblicazioneRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -32,7 +33,7 @@ public class PubblicazioneService {
         Optional<Pubblicazione> existingPubblicazione = pubblicazioneRepository.findById(pubblicazione.getId());
 
         if (existingPubblicazione.isPresent()) {
-            System.out.println("Student " + pubblicazione.getId() + " updated");
+            System.out.println("Publication " + pubblicazione.getId() + " updated");
             return pubblicazioneRepository.save(pubblicazione);
         } else {
             return null;
@@ -46,7 +47,21 @@ public class PubblicazioneService {
         } else return "Publication id is not present in database";
     }
 
-    //todo: add a Utente to buyers list
+    @Transactional
+    public String addUtenteById(String pubblicazioneId, String utenteId){
+        Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findById(pubblicazioneId);
+
+        if(pubblicazione.isEmpty())
+            return "Publication not found, action denied";
+
+        if(pubblicazione.get().getListaUtentiId().contains(utenteId))
+            return "User already added, action denied";
+
+        pubblicazione.get().getListaUtentiId().add(utenteId);
+        pubblicazioneRepository.save(pubblicazione.get());
+        return "User added with success";
+    }
+
     //todo: stampa utenti
     //todo: controllare che quando inserisco una pubblicazione la lista degli utenti sia vuota
     //todo: controllare che quando inserisco una pubblicazione tutti gli id di articolo esistano

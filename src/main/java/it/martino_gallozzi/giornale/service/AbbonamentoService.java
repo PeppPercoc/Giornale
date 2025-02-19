@@ -5,6 +5,7 @@ import it.martino_gallozzi.giornale.repository.AbbonamentoRepository;
 import it.martino_gallozzi.giornale.repository.UtenteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -68,6 +69,7 @@ public class AbbonamentoService {
     }
 
     // Aggiungi un utente dalla lista degli abbonati di un abbonamento
+    @Transactional
     public String addSubscriptionById (String abbonamentoArgomento, String utenteId){
         Optional<Abbonamento> abbonamento = abbonamentoRepository.findById(abbonamentoArgomento);
 
@@ -84,6 +86,7 @@ public class AbbonamentoService {
 
 
     // Rimuovi un utente dalla lista degli abbonati di un abbonamento
+    @Transactional
     public String cancelSubscriptionById(String abbonamentoArgomento, String utenteId){
        Optional<Abbonamento> abbonamento = abbonamentoRepository.findById(abbonamentoArgomento);
 
