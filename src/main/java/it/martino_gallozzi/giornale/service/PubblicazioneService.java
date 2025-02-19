@@ -54,21 +54,17 @@ public class PubblicazioneService {
     }
 
     @Transactional
-    public String addUtenteById(String pubblicazioneId, String utenteId){
+    public Boolean addUtenteById(String pubblicazioneId, String utenteId) {
         Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findById(pubblicazioneId);
 
-        if(pubblicazione.isEmpty())
-            return "Publication not found, action denied";
+        pubblicazione.ifPresent(p -> {
+            p.getListaUtentiId().add(utenteId);
+            pubblicazioneRepository.save(p);
+        });
 
-        if(pubblicazione.get().getListaUtentiId().contains(utenteId))
-            return "User already added, action denied";
-
-        pubblicazione.get().getListaUtentiId().add(utenteId);
-        pubblicazioneRepository.save(pubblicazione.get());
-        return "User added with success";
+        return pubblicazione.map(p -> true).orElse(false);
     }
 
-    @Transactional
     public List<String> getUsersListById(String pubblicazioneId){
         Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findById(pubblicazioneId);
 
