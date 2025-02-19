@@ -1,5 +1,6 @@
 package it.martino_gallozzi.giornale.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,16 +13,11 @@ import java.util.Map;
 
 @Data
 @Document
+@AllArgsConstructor
 
 public class Abbonamento {
     @Id
     private String argomento;
     private String periodicita;
-    private List<String> listaUtentiId;
-
-    public Abbonamento(String argomento, String periodicita, List listaUtentiId) {
-        this.argomento = argomento;
-        this.periodicita = periodicita;
-        this.listaUtentiId = listaUtentiId;
-    }
+    private List<String> listaUtentiId = new ArrayList<>();
 }
