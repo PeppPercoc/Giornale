@@ -79,6 +79,20 @@ public class PubblicazioneService {
         return usersList;
     }
 
+    public List<String> getArticleListById(String pubblicazioneId){
+        Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findById(pubblicazioneId);
+
+        if(pubblicazione.isEmpty()) {
+            System.out.println("Publication not found, action denied");
+            List<String> emptyList = new ArrayList<>();
+            return emptyList;
+        }
+
+        List articleList = new ArrayList<>(pubblicazione.get().getListaArticoliId());
+
+        return articleList;
+    }
+
 
     //todo: controllare che quando inserisco una pubblicazione tutti gli id di articolo esistano
     //todo: read the list of the Articoli inside the Pubblicazione
