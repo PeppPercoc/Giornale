@@ -72,37 +72,30 @@ public class AbbonamentoService {
 
     // Aggiungi un utente dalla lista degli abbonati di un abbonamento
     @Transactional
-    public String addSubscriptionById (String abbonamentoArgomento, String utenteId){
+    public Boolean addSubscriptionById (String abbonamentoArgomento, String utenteId){
         Optional<Abbonamento> abbonamento = abbonamentoRepository.findById(abbonamentoArgomento);
 
-        if(abbonamento.isEmpty())
-            return "Subscription not found, action denied";
+        abbonamento.ifPresent(a -> {
+            a.getListaUtentiId().add(utenteId);
+            abbonamentoRepository.save(a);
+        });
 
-        if(abbonamento.get().getListaUtentiId().contains(utenteId))
-            return "User already subscribed, action denied";
-
-        abbonamento.get().getListaUtentiId().add(utenteId);
-        abbonamentoRepository.save(abbonamento.get());
-        return "Subscription successful";
+        return abbonamento.map(a -> true).orElse(false);
     }
 
     // Rimuovi un utente dalla lista degli abbonati di un abbonamento
     @Transactional
-    public String cancelSubscriptionById(String abbonamentoArgomento, String utenteId){
+    public Boolean cancelSubscriptionById(String abbonamentoArgomento, String utenteId){
        Optional<Abbonamento> abbonamento = abbonamentoRepository.findById(abbonamentoArgomento);
 
-       if(abbonamento.isEmpty())
-           return "Subscription not found, cancellation denied";
+       abbonamento.ifPresent(a -> {
+           a.getListaUtentiId().remove(utenteId);
+           abbonamentoRepository.save(a);
+       });
 
-       if(! abbonamento.get().getListaUtentiId().contains(utenteId))
-           return "User not subscribed, cancellation denied";
-
-        abbonamento.get().getListaUtentiId().remove(utenteId);
-        abbonamentoRepository.save(abbonamento.get());
-        return "Subscription cancelled";
+       return abbonamento.map(a -> true).orElse(false);
     }
 
-    @Transactional
     public List<String> getSubscribersListById(String abbonamentoId){
         Optional<Abbonamento> abbonamento = abbonamentoRepository.findById(abbonamentoId);
 
