@@ -2,6 +2,7 @@ package it.martino_gallozzi.giornale.service;
 
 import it.martino_gallozzi.giornale.entity.Pubblicazione;
 import it.martino_gallozzi.giornale.entity.Utente;
+import it.martino_gallozzi.giornale.repository.ArticoloRepository;
 import it.martino_gallozzi.giornale.repository.PubblicazioneRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class PubblicazioneService {
     private final PubblicazioneRepository pubblicazioneRepository;
+    private final ArticoloRepository articoloRepository;
 
     //CREATE
     public Pubblicazione insertPubblicazione(Pubblicazione pubblicazione) {
@@ -29,6 +31,16 @@ public class PubblicazioneService {
         });
         return pubblicazione;
     }
+
+    public boolean existArticles(List<String> listArticlesId){
+        if (listArticlesId == null || listArticlesId.isEmpty())
+            return false;
+
+        long count = articoloRepository.countByIdIn(listArticlesId);
+
+        return count == listArticlesId.size();
+    }
+
     //READ
     public Pubblicazione getPubblicazioneByTitolo(String pubblicazioneTitolo) {
         Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findPubblicazioneByTitolo(pubblicazioneTitolo);
@@ -95,5 +107,4 @@ public class PubblicazioneService {
 
 
     //todo: controllare che quando inserisco una pubblicazione tutti gli id di articolo esistano
-    //todo: read the list of the Articoli inside the Pubblicazione
 }
