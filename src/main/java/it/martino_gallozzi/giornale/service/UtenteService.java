@@ -37,7 +37,7 @@ public class UtenteService {
         Optional<Utente> existingUtente = utenteRepository.findById(utente.getId());
 
         if (existingUtente.isPresent()) {
-            System.out.println("Student " + utente.getId() + " updated");
+            System.out.println("User " + utente.getId() + " updated");
             return utenteRepository.save(utente);
         } else {
             return null;
