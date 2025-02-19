@@ -23,6 +23,9 @@ public class PubblicazioneService {
         if(! pubblicazione.getListaUtentiId().isEmpty())
             pubblicazione.getListaUtentiId().clear();
 
+        if(! existArticles(pubblicazione.getListaArticoliId()))
+            return null;
+
         pubblicazioneRepository.findById(pubblicazione.getId()).ifPresentOrElse(s -> {
             System.out.println("Publication " + s + " already exists");
         }, () -> {
