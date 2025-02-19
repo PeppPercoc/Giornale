@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface ArticoloRepository extends MongoRepository<Articolo, String> {
     Optional<List<Articolo>> findArticoloByTitolo(String titolo);
-    //Optional<List<String>> findlistaGiornalistiIdbyTitolo(String titolo);
+    long countByIdIn (List<String> listaArticoliId);
 }
