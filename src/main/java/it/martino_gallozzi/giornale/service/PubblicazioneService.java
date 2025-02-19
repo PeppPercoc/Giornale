@@ -18,6 +18,9 @@ public class PubblicazioneService {
 
     //CREATE
     public Pubblicazione insertPubblicazione(Pubblicazione pubblicazione) {
+        if(! pubblicazione.getListaUtentiId().isEmpty())
+            pubblicazione.getListaUtentiId().clear();
+
         pubblicazioneRepository.findById(pubblicazione.getId()).ifPresentOrElse(s -> {
             System.out.println("Publication " + s + " already exists");
         }, () -> {
@@ -83,3 +86,5 @@ public class PubblicazioneService {
     //todo: controllare che quando inserisco una pubblicazione tutti gli id di articolo esistano
     //todo: read the list of the Articoli inside the Pubblicazione
 }
+
+//git commit -a -m "Modified insertPubblicazione in PubblicazionService" -m "Now the method check if pubblicazione.listaUtentiId is empty, and if it's not, it clear the list. The user list must be empty when the publication is created"
