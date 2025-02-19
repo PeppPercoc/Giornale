@@ -16,8 +16,7 @@ public class ArticoloService {
     private final ArticoloRepository articoloRepository;
     private final GiornalistaRepository giornalistaRepository;
 
-    //CREATE
-    public boolean verificaGiornalistiEsistenti(List<String> listaGiornalistiId) {
+    public boolean existJournalists(List<String> listaGiornalistiId) {
         if (listaGiornalistiId == null || listaGiornalistiId.isEmpty()) {
             return false; // Non accettiamo articoli senza giornalisti
         }
@@ -30,11 +29,11 @@ public class ArticoloService {
     }
 
      //rispetta proprietà acid
+     //CREATE
     @Transactional
     public Articolo insertArticolo(Articolo articolo) {
-        boolean giornalistiValidi = verificaGiornalistiEsistenti(articolo.getListaGiornalistiId());
 
-        if (!giornalistiValidi) {
+        if (!existJournalists(articolo.getListaGiornalistiId())) {
             return null;
         }
 
@@ -57,7 +56,7 @@ public class ArticoloService {
     public Articolo updateArticolo(Articolo articolo) {
         Optional<Articolo> existingArticolo = articoloRepository.findById(articolo.getId());
 
-        boolean giornalistiValidi = verificaGiornalistiEsistenti(articolo.getListaGiornalistiId());
+        boolean giornalistiValidi = existJournalists(articolo.getListaGiornalistiId());
 
         if (!giornalistiValidi) {
             return null;
@@ -75,7 +74,7 @@ public class ArticoloService {
     public Articolo updateGiornalistiArticolo(Articolo articolo, List<String> listaGiornalisti) {
         Optional<Articolo> existingArticolo = articoloRepository.findById(articolo.getId());
 
-        boolean giornalistiValidi = verificaGiornalistiEsistenti(listaGiornalisti);
+        boolean giornalistiValidi = existJournalists(listaGiornalisti);
 
         if (!giornalistiValidi) {
             return null;
