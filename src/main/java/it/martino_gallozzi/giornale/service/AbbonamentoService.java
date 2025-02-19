@@ -1,6 +1,7 @@
 package it.martino_gallozzi.giornale.service;
 
 import it.martino_gallozzi.giornale.entity.Abbonamento;
+import it.martino_gallozzi.giornale.entity.Pubblicazione;
 import it.martino_gallozzi.giornale.repository.AbbonamentoRepository;
 import it.martino_gallozzi.giornale.repository.UtenteRepository;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -84,7 +86,6 @@ public class AbbonamentoService {
         return "Subscription successful";
     }
 
-
     // Rimuovi un utente dalla lista degli abbonati di un abbonamento
     @Transactional
     public String cancelSubscriptionById(String abbonamentoArgomento, String utenteId){
@@ -99,5 +100,19 @@ public class AbbonamentoService {
         abbonamento.get().getListaUtentiId().remove(utenteId);
         abbonamentoRepository.save(abbonamento.get());
         return "Subscription cancelled";
+    }
+
+    @Transactional
+    public List<String> getSubscribersListById(String abbonamentoId){
+        Optional<Abbonamento> abbonamento = abbonamentoRepository.findById(abbonamentoId);
+
+        if(abbonamento.isEmpty()) {
+            System.out.println("Subscription not found, action denied");
+            return null;
+        }
+
+        List subscribersList = new ArrayList<>(abbonamento.get().getListaUtentiId());
+
+        return subscribersList;
     }
 }
