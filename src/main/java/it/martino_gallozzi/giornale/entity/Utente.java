@@ -1,5 +1,6 @@
 package it.martino_gallozzi.giornale.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -7,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document
+@AllArgsConstructor
 
 public class Utente {
     @Id
@@ -18,15 +20,4 @@ public class Utente {
     private String cap;
     @Indexed(unique = true)
     private String email;
-
-    public Utente(String id, String nome, String cognome, String indirizzo,
-                  String citta, String cap, String email) {
-        this.id = id;
-        this.nome = nome;
-        this.cognome = cognome;
-        this.indirizzo = indirizzo;
-        this.citta = citta;
-        this.cap = cap;
-        this.email = email;
-    }
 }
