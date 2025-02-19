@@ -101,7 +101,8 @@ public class AbbonamentoService {
 
         if(abbonamento.isEmpty()) {
             System.out.println("Subscription not found, action denied");
-            return null;
+            List<String> emptyList = new ArrayList<>();
+            return emptyList;
         }
 
         List subscribersList = new ArrayList<>(abbonamento.get().getListaUtentiId());
