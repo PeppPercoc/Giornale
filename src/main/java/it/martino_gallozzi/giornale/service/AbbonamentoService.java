@@ -57,19 +57,19 @@ public class AbbonamentoService {
         } else return "Subscription arguments is not present in database";
     }
 
-//    public String addSubscriptionById (String abbonamentoArgomento, String utenteId){
-//        Optional<Abbonamento> abbonamento = abbonamentoRepository.findById(abbonamentoArgomento);
-//
-//        if(abbonamento.isEmpty())
-//            return "Subscription not found, action denied";
-//
-//        if(abbonamento.get().getListaUtentiId().contains(utenteId))
-//            return "User already subscribed, action denied";
-//
-//        abbonamento.get().getListaUtentiId().add(utenteId);
-//        abbonamentoRepository.save(abbonamento.get());
-//        return "Subscription successful";
-//    }
+    public String addSubscriptionById (String abbonamentoArgomento, String utenteId){
+        Optional<Abbonamento> abbonamento = abbonamentoRepository.findById(abbonamentoArgomento);
+
+        if(abbonamento.isEmpty())
+            return "Subscription not found, action denied";
+
+        if(abbonamento.get().getListaUtentiId().contains(utenteId))
+            return "User already subscribed, action denied";
+
+        abbonamento.get().getListaUtentiId().add(utenteId);
+        abbonamentoRepository.save(abbonamento.get());
+        return "Subscription successful";
+    }
 
 
     // Rimuovi un utente dalla lista degli abbonati di un abbonamento
