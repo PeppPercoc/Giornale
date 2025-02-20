@@ -3,7 +3,7 @@ FROM maven:3.9-amazoncorretto-17-alpine AS build
 WORKDIR /app
 
 RUN apk update && apk add --no-cache git
-RUN git clone --depth 1 --branch v0.2.14 --single-branch https://github.com/PeppPercoc/Giornale.git progetto && cd progetto && mvn package #-DskipTests
+RUN git clone --depth 1 --branch v0.2.15 --single-branch https://github.com/PeppPercoc/Giornale.git progetto && cd progetto && mvn package #-DskipTests
 
 FROM openjdk:17-jdk-slim
 
