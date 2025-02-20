@@ -24,19 +24,19 @@ services:
     networks:
       - giornale-network
 
-#  giornale:
-#    build: .
-#    container_name: giornale-app
-#    restart: on-failure
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - mongodb
-#      - mongo-express
-#    environment:
-#      - SPRING_DATA_MONGODB_URI=mongodb://rootuser:rootpass@mongodb:27017/giornale?authSource=admin
-#    networks:
-#      - giornale-network
+  giornale:
+    build: .
+    container_name: giornale-app
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+      - mongo-express
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://rootuser:rootpass@mongodb:27017/giornale?authSource=admin
+    networks:
+      - giornale-network
 
 volumes:
   data: {}
