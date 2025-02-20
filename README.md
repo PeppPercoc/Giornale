@@ -4,6 +4,10 @@
 
 This project is a backend written in Java that simulates a database where a newspaper can insert articles and publications, and users can purchase those publications.
 
+## Telegram
+
+Follow us on Telegram to be updated on releases. Search **@GiornaleMGbot** and send `/start` to receive notifications
+
 # How to use
 
 ## Introduction
