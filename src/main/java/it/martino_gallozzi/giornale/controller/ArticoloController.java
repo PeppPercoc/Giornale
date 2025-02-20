@@ -25,7 +25,9 @@ public class ArticoloController {
         List<Articolo> listaArticoli = articoloService.getArticoloByTitolo(articoloTitolo);
         if(listaArticoli!=null){
             return listaArticoli;
-        }else return null;
+        }else {
+            return null;
+        }
     }
 
     @DeleteMapping("delete")

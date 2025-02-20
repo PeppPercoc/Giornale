@@ -74,6 +74,29 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.21.2</version> <!-- Controlla l'ultima versione disponibile -->
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<rulesets>
+						<ruleset>/rulesets/java/quickstart.xml</ruleset>
+					</rulesets>
+					<excludes>
+						<exclude>ReturnEmptyCollectionRatherThanNull</exclude>
+						<exclude>UnnecessaryLocalBeforeReturn</exclude>
+					</excludes>
+					<failOnViolation>false</failOnViolation> <!-- Imposta a true se vuoi bloccare la build -->
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

@@ -95,6 +95,8 @@ public class ArticoloService {
         if (articoloRepository.existsById(articoloTitolo)) {
             articoloRepository.deleteById(articoloTitolo);
             return "Article " + articoloTitolo + " deleted";
-        } else return "Article title is not present in database";
+        } else{
+            return "Article title is not present in database";
+        }
     }
 }

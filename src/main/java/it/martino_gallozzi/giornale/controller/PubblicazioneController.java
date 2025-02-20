@@ -24,7 +24,9 @@ public class PubblicazioneController {
         Pubblicazione pubblicazione = pubblicazioneService.getPubblicazioneByTitolo(pubblicazioneTitolo);
         if(pubblicazione!=null){
             return pubblicazione;
-        }else return null;
+        }else{
+            return null;
+        }
     }
 
     @DeleteMapping("delete")

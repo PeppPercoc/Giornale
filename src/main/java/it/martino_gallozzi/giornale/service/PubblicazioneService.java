@@ -1,7 +1,6 @@
 package it.martino_gallozzi.giornale.service;
 
 import it.martino_gallozzi.giornale.entity.Pubblicazione;
-import it.martino_gallozzi.giornale.entity.Utente;
 import it.martino_gallozzi.giornale.repository.ArticoloRepository;
 import it.martino_gallozzi.giornale.repository.PubblicazioneRepository;
 import lombok.AllArgsConstructor;
@@ -65,7 +64,9 @@ public class PubblicazioneService {
         if (pubblicazioneRepository.existsById(pubblicazioneId)) {
             pubblicazioneRepository.deleteById(pubblicazioneId);
             return "Publication " + pubblicazioneId + " deleted";
-        } else return "Publication id is not present in database";
+        } else{
+            return "Publication id is not present in database";
+        }
     }
 
     @Transactional
@@ -85,13 +86,13 @@ public class PubblicazioneService {
 
         if(pubblicazione.isEmpty()) {
             System.out.println("Publication not found, action denied");
-            List<String> emptyList = new ArrayList<>();
-            return emptyList;
+            //List<String> emptyList = new ArrayList<>();
+            return new ArrayList<String>();
         }
 
-        List usersList = new ArrayList<>(pubblicazione.get().getListaUtentiId());
+        //List usersList = new ArrayList<>(pubblicazione.get().getListaUtentiId());
 
-        return usersList;
+        return new ArrayList<>(pubblicazione.get().getListaUtentiId());
     }
 
     public List<String> getArticleListById(String pubblicazioneId){
@@ -99,13 +100,13 @@ public class PubblicazioneService {
 
         if(pubblicazione.isEmpty()) {
             System.out.println("Publication not found, action denied");
-            List<String> emptyList = new ArrayList<>();
-            return emptyList;
+            //List<String> emptyList = new ArrayList<>();
+            return new ArrayList<>();
         }
 
-        List articleList = new ArrayList<>(pubblicazione.get().getListaArticoliId());
+        //List articleList = new ArrayList<>(pubblicazione.get().getListaArticoliId());
 
-        return articleList;
+        return new ArrayList<>(pubblicazione.get().getListaArticoliId());
     }
 
 

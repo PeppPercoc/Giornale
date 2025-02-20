@@ -25,7 +25,9 @@ public class GiornalistaController {
         Giornalista giornalista = giornalistaService.getGiornalistaById(giornalistaId);
         if(giornalista!=null){
             return giornalista;
-        }else return null;
+        }else{
+            return null;
+        }
     }
 
     @GetMapping("get-by-name/{giornalistaName}")
@@ -34,7 +36,9 @@ public class GiornalistaController {
         List<Giornalista> listaGiornalisti = giornalistaService.getGiornalistaByName(giornalistaName);
         if(listaGiornalisti!=null){
             return listaGiornalisti;
-        }else return null;
+        }else{
+            return null;
+        }
     }
 
     @DeleteMapping("delete")
