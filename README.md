@@ -49,7 +49,7 @@ services:
       - giornale-network
 
   giornale:
-    image: pepppercoc/giornale:v0.1.16
+    image: pepppercoc/giornale:latest
     container_name: giornale-app
     restart: on-failure
     ports:
