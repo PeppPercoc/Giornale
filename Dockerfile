@@ -5,7 +5,6 @@ WORKDIR /app
 RUN apk update && apk add --no-cache git
 RUN git clone --depth 1 --branch v0.2.14 --single-branch https://github.com/PeppPercoc/Giornale.git progetto && cd progetto && mvn package #-DskipTests
 
-# Seconda fase: esegue l'applicazione
 FROM openjdk:17-jdk-slim
 
 WORKDIR /app

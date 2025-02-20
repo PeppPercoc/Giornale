@@ -3,7 +3,7 @@ name: Build and Deploy Docker Image
 on:
   push:
     tags:
-      - 'v*' # Esegue solo per i tag che iniziano con "v" (es. v1.0.0)
+      - 'v*'
 
 jobs:
   build:
