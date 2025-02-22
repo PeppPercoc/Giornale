@@ -24,7 +24,7 @@ public class PubblicazioneService {
             pubblicazione.getListaUtentiId().clear();
 
         if(! existArticles(pubblicazione.getListaArticoliId()))
-            System.out.println("one or more articles do not exist, insertion failed");
+            System.out.println("One or more articles do not exist, insertion failed");
 
         else {
             pubblicazioneRepository.findById(pubblicazione.getId()).ifPresentOrElse(s -> {
@@ -49,6 +49,11 @@ public class PubblicazioneService {
     //READ
     public Pubblicazione getPubblicazioneByTitolo(String pubblicazioneTitolo) {
         Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findPubblicazioneByTitolo(pubblicazioneTitolo);
+        return pubblicazione.orElse(null);
+    }
+
+    public Pubblicazione getPubblicazioneById(String pubblicazioneId){
+        Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findPubblicazioneById(pubblicazioneId);
         return pubblicazione.orElse(null);
     }
     //UPDATE
@@ -109,7 +114,4 @@ public class PubblicazioneService {
 
         return articleList;
     }
-
-
-    //todo: controllare che quando inserisco una pubblicazione tutti gli id di articolo esistano
 }
