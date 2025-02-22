@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface PubblicazioneRepository extends MongoRepository<Pubblicazione, String> {
     Optional<Pubblicazione> findPubblicazioneByTitolo(String titolo);
+
+    Optional<Pubblicazione> findPubblicazioneById(String id);
 }
