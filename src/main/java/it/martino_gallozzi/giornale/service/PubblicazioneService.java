@@ -24,14 +24,16 @@ public class PubblicazioneService {
             pubblicazione.getListaUtentiId().clear();
 
         if(! existArticles(pubblicazione.getListaArticoliId()))
-            return null;
+            System.out.println("one or more articles do not exist, insertion failed");
 
-        pubblicazioneRepository.findById(pubblicazione.getId()).ifPresentOrElse(s -> {
-            System.out.println("Publication " + s + " already exists");
-        }, () -> {
-            System.out.println("Inserting publication " + pubblicazione);
-            pubblicazioneRepository.insert(pubblicazione);
-        });
+        else {
+            pubblicazioneRepository.findById(pubblicazione.getId()).ifPresentOrElse(s -> {
+                System.out.println("Publication " + s + " already exists");
+            }, () -> {
+                System.out.println("Inserting publication " + pubblicazione);
+                pubblicazioneRepository.insert(pubblicazione);
+            });
+        }
         return pubblicazione;
     }
 
