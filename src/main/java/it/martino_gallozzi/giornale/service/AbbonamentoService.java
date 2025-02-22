@@ -96,8 +96,8 @@ public class AbbonamentoService {
        return abbonamento.map(a -> true).orElse(false);
     }
 
-    public List<String> getSubscribersListById(String abbonamentoId){
-        Optional<Abbonamento> abbonamento = abbonamentoRepository.findById(abbonamentoId);
+    public List<String> getSubscribersListById(String abbonamentoArgomento){
+        Optional<Abbonamento> abbonamento = abbonamentoRepository.findById(abbonamentoArgomento);
 
         if(abbonamento.isEmpty()) {
             System.out.println("Subscription not found, action denied");

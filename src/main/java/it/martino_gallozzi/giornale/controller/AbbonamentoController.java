@@ -72,5 +72,8 @@ public class AbbonamentoController {
         }
     }
 
-
+    @GetMapping("get-subscribers/{abbonamentoArgomento}")
+    public List<String> getSubscribersListById(String abbonamentoArgomento){
+        return abbonamentoService.getSubscribersListById(abbonamentoArgomento);
+    }
 }
