@@ -53,7 +53,7 @@ public class PubblicazioneService {
     }
 
     public Pubblicazione getPubblicazioneById(String pubblicazioneId){
-        Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findPubblicazioneById(pubblicazioneId);
+        Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findById(pubblicazioneId);
         return pubblicazione.orElse(null);
     }
     //UPDATE
