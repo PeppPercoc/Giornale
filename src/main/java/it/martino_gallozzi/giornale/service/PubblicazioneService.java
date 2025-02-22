@@ -101,7 +101,7 @@ public class PubblicazioneService {
         return usersList;
     }
 
-    public List<String> getArticleListById(String pubblicazioneId){
+    public List<String> getArticlesListById(String pubblicazioneId){
         Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findById(pubblicazioneId);
 
         if(pubblicazione.isEmpty()) {
