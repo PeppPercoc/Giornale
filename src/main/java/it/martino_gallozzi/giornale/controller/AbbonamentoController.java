@@ -48,7 +48,7 @@ public class AbbonamentoController {
         return abbonamentoService.updateAbbonamento(abbonamento);
     }
 
-    @PutMapping("add-utente/{abbonamentoArgomento}/{utenteId}")
+    @PutMapping("add-subscription/{abbonamentoArgomento}/{utenteId}")
     public Abbonamento addSubscriptionById(String abbonamentoArgomento, String utenteId) {
 
         boolean success = abbonamentoService.addSubscriptionById(abbonamentoArgomento, utenteId);
@@ -59,5 +59,18 @@ public class AbbonamentoController {
             return null;
         }
     }
+
+    @DeleteMapping("cancel-subscription/{abbonamentoArgomento}/{utenteId}")
+    public Abbonamento cancelSubscriptionById(String abbonamentoArgomento, String utenteId) {
+
+        boolean success = abbonamentoService.cancelSubscriptionById(abbonamentoArgomento, utenteId);
+
+        if (success) {
+            return abbonamentoService.getAbbonamentoByArgomento(abbonamentoArgomento);
+        } else {
+            return null;
+        }
+    }
+
 
 }
