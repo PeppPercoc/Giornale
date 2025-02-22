@@ -36,4 +36,17 @@ public class PubblicazioneController {
     public Pubblicazione updatePubblicazione(@RequestBody Pubblicazione pubblicazione) {
         return pubblicazioneService.updatePubblicazione(pubblicazione);
     }
+
+    @PutMapping("add-utente/{pubblicazioneId}/{utenteId}")
+    public Pubblicazione addUtenteById(String pubblicazioneId, String utenteId) {
+
+        boolean success = pubblicazioneService.addUtenteById(pubblicazioneId, utenteId);
+
+        if (success) {
+            return pubblicazioneService.getPubblicazioneById(pubblicazioneId);
+        } else {
+            return null;
+        }
+    }
+
 }
