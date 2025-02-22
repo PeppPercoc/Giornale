@@ -54,4 +54,9 @@ public class PubblicazioneController {
     public List<String> getUsersListById(String pubblicazioneId){
         return pubblicazioneService.getUsersListById(pubblicazioneId);
     }
+
+    @GetMapping("get-users/{pubblicazioneId}")
+    public List<String> getArticlesListById(String pubblicazioneId){
+        return pubblicazioneService.getArticlesListById(pubblicazioneId);
+    }
 }
