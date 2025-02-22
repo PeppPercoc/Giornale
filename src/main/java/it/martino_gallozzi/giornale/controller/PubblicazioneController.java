@@ -5,6 +5,7 @@ import it.martino_gallozzi.giornale.service.PubblicazioneService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -49,4 +50,8 @@ public class PubblicazioneController {
         }
     }
 
+    @GetMapping("get-users/{pubblicazioneId}")
+    public List<String> getUsersListById(String pubblicazioneId){
+        return pubblicazioneService.getUsersListById(pubblicazioneId);
+    }
 }
