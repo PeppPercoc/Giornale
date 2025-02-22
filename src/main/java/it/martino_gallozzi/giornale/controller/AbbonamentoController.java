@@ -5,7 +5,6 @@ import it.martino_gallozzi.giornale.service.AbbonamentoService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +46,18 @@ public class AbbonamentoController {
     @PutMapping("update")
     public Abbonamento updateAbbonamento(@RequestBody Abbonamento abbonamento) {
         return abbonamentoService.updateAbbonamento(abbonamento);
+    }
+
+    @PutMapping("add-utente/{abbonamentoArgomento}/{utenteId}")
+    public Abbonamento addSubscriptionById(String abbonamentoArgomento, String utenteId) {
+
+        boolean success = abbonamentoService.addSubscriptionById(abbonamentoArgomento, utenteId);
+
+        if (success) {
+            return abbonamentoService.getAbbonamentoByArgomento(abbonamentoArgomento);
+        } else {
+            return null;
+        }
     }
 
 }
