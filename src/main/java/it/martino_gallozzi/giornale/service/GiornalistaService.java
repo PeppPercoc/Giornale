@@ -49,6 +49,8 @@ public class GiornalistaService {
         if (giornalistaRepository.existsById(giornalistaId)) {
             giornalistaRepository.deleteById(giornalistaId);
             return "Journalist " + giornalistaId + " deleted";
-        } else return "Journalist id is not present in database";
+        } else{
+            return "Journalist id is not present in database";
+        }
     }
 }

@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.0.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>it.martino_gallozzi</groupId>
 	<artifactId>giornale</artifactId>
@@ -72,6 +72,29 @@
 							<version>1.18.30</version>
 						</path>
 					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.21.2</version>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<rulesets>
+						<ruleset>/rulesets/java/quickstart.xml</ruleset>
+					</rulesets>
+					<excludes>
+						<exclude>ReturnEmptyCollectionRatherThanNull</exclude>
+						<exclude>UnnecessaryLocalBeforeReturn</exclude>
+					</excludes>
+					<failOnViolation>false</failOnViolation>
 				</configuration>
 			</plugin>
 		</plugins>

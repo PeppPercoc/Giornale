@@ -26,7 +26,9 @@ public class AbbonamentoController {
         Abbonamento abbonamento = abbonamentoService.getAbbonamentoByArgomento(abbonamentoArgomento);
         if(abbonamento!=null){
             return abbonamento;
-        }else return null;
+        }else {
+            return null;
+        }
     }
 
     @GetMapping("get-users-by-argomento/{abbonamentoArgomento}")
@@ -35,7 +37,9 @@ public class AbbonamentoController {
         List<String> listaAbbonamentiId = abbonamentoService.getUsersByArgomento(abbonamentoArgomento);
         if(listaAbbonamentiId!=null){
             return listaAbbonamentiId;
-        }else return null;
+        }else {
+            return null;
+        }
     }
 
     @DeleteMapping("delete")

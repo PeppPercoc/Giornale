@@ -48,7 +48,9 @@ public class UtenteService {
         if (utenteRepository.existsById(utenteId)) {
             utenteRepository.deleteById(utenteId);
             return "User " + utenteId + " deleted";
-        } else return "User id is not present in database";
+        } else{
+            return "User id is not present in database";
+        }
     }
 
 }

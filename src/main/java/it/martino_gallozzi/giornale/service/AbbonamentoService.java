@@ -1,17 +1,14 @@
 package it.martino_gallozzi.giornale.service;
 
 import it.martino_gallozzi.giornale.entity.Abbonamento;
-import it.martino_gallozzi.giornale.entity.Pubblicazione;
 import it.martino_gallozzi.giornale.repository.AbbonamentoRepository;
 import it.martino_gallozzi.giornale.repository.UtenteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -67,7 +64,9 @@ public class AbbonamentoService {
         if (abbonamentoRepository.existsById(abbonamentoArgomento)) {
             abbonamentoRepository.deleteById(abbonamentoArgomento);
             return "Subscription " + abbonamentoArgomento + " deleted";
-        } else return "Subscription arguments is not present in database";
+        } else{
+            return "Subscription arguments is not present in database";
+        }
     }
 
     // Aggiungi un utente dalla lista degli abbonati di un abbonamento
@@ -101,12 +100,12 @@ public class AbbonamentoService {
 
         if(abbonamento.isEmpty()) {
             System.out.println("Subscription not found, action denied");
-            List<String> emptyList = new ArrayList<>();
-            return emptyList;
+            //List<String> emptyList = new ArrayList<>();
+            return new ArrayList<>();
         }
 
-        List subscribersList = new ArrayList<>(abbonamento.get().getListaUtentiId());
+        //List subscribersList = new ArrayList<>(abbonamento.get().getListaUtentiId());
 
-        return subscribersList;
+        return new ArrayList<>(abbonamento.get().getListaUtentiId());
     }
 }

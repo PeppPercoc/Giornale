@@ -3,7 +3,7 @@ name: Build and Deploy Docker Image
 on:
   push:
     tags:
-      - 'v*' # Esegue solo per i tag che iniziano con "v" (es. v1.0.0)
+      - 'v*'
 
 jobs:
   build:
@@ -32,5 +32,12 @@ jobs:
         run: |
           docker tag ${{ secrets.DOCKER_USERNAME }}/giornale:${{ env.VERSION }} ${{ secrets.DOCKER_USERNAME }}/giornale:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/giornale:latest
-            docker-compose up -d --force-recreate
-            docker system prune -f
+
+      - name: Send Telegram Notification
+        run: |
+          MESSAGE="Nuova release disponibile!                       *Versione:* ${{ env.VERSION }}                                     *Docker Image:* pepppercoc/giornale:${{ env.VERSION }}                                         Scaricala da Docker Hub: [clicca qui](https://hub.docker.com/r/pepppercoc/giornale"
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d parse_mode="Markdown" \
+            --data-urlencode text="$MESSAGE"
+        if: startsWith(github.ref, 'refs/tags/')
