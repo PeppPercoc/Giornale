@@ -16,7 +16,7 @@ import java.util.Map;
 public class ArticoloController {
     private final ArticoloService articoloService;
 
-    @PostMapping("insert-articolo")
+    @PostMapping("register-articolo")
     public GenericResponse<Articolo> insertArticolo(@RequestBody ArticoloRegistration registration) throws Exception {
         return articoloService.insertArticolo(registration);
     }
@@ -28,7 +28,7 @@ public class ArticoloController {
 
     @DeleteMapping("delete")
     public GenericResponse<Articolo> deleteArticolo(@RequestBody Map<String, String> id) throws Exception {
-        return articoloService.deleteArticoloById(id.get("id"));
+        return articoloService.deleteArticoloById(id.get("articoloId"));
     }
 
     @PutMapping("update")

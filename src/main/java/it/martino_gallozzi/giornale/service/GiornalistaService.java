@@ -25,35 +25,35 @@ public class GiornalistaService {
         return new GenericResponse<>(giornalista, null, HttpStatus.OK.value());
     }
     //READ
-    public GenericResponse<Giornalista> getGiornalistaById(String giornalistaId) throws Exception {
+    public GenericResponse<Giornalista> getGiornalistaById(String giornalistaId) {
         return giornalistaRepository.findById(giornalistaId)
                 .map(g -> new GenericResponse<>(g, null, HttpStatus.OK.value()))
-                .orElseThrow(() -> new Exception("Giornalista not found"));
+                .orElse(new GenericResponse<>(null, "Giornalista not found", HttpStatus.NOT_FOUND.value()));
     }
 
-    public GenericResponse<List<Giornalista>> getGiornalistaByName(String giornalistaNome) throws Exception {
+    public GenericResponse<List<Giornalista>> getGiornalistaByName(String giornalistaNome) {
         return giornalistaRepository.findGiornalistaByNome(giornalistaNome)
                 .map(l -> new GenericResponse<>(l, null, HttpStatus.OK.value()))
-                .orElseThrow(() -> new Exception("Giornalista not found"));
+                .orElse(new GenericResponse<>(null, "Giornalista not found", HttpStatus.NOT_FOUND.value()));
     }
     //UPDATE
     @Transactional
-    public GenericResponse<Giornalista> updateGiornalista(Giornalista giornalista) throws Exception {
+    public GenericResponse<Giornalista> updateGiornalista(Giornalista giornalista) {
         return giornalistaRepository.findById(giornalista.getId())
                 .map(g -> {
                     giornalistaRepository.save(giornalista);
                     return new GenericResponse<>(giornalista, null, HttpStatus.OK.value());
                 })
-                .orElseThrow(() -> new Exception("Giornalista ID not found"));
+                .orElse(new GenericResponse<>(null, "Giornalista ID not found", HttpStatus.NOT_FOUND.value()));
     }
     //DELETE
     @Transactional
-    public GenericResponse<Giornalista> deleteGiornalistaById(String giornalistaId) throws Exception {
+    public GenericResponse<Giornalista> deleteGiornalistaById(String giornalistaId) {
         return giornalistaRepository.findById(giornalistaId)
                 .map(g -> {
                     giornalistaRepository.deleteById(giornalistaId);
                     return new GenericResponse<>(g, null, HttpStatus.OK.value());
                 })
-                .orElseThrow(() -> new Exception("Giornalista ID not found"));
+                .orElse(new GenericResponse<>(null, "Giornalista ID not found", HttpStatus.NOT_FOUND.value()));
     }
 }

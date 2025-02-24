@@ -1,6 +1,8 @@
 package it.martino_gallozzi.giornale.controller;
 
+import it.martino_gallozzi.giornale.dto.UtenteRegistration;
 import it.martino_gallozzi.giornale.entity.Utente;
+import it.martino_gallozzi.giornale.response.GenericResponse;
 import it.martino_gallozzi.giornale.service.UtenteService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,32 +15,30 @@ import java.util.Map;
 public class UtenteController {
     private final UtenteService utenteService;
 
-    @PostMapping("insert-utente")
-    public Utente insertUtente(@RequestBody Utente utente) {
-        return utenteService.insertUtente(utente);
+    @PostMapping("register-utente")
+    public GenericResponse<Utente> register(@RequestBody UtenteRegistration registration) {
+        return utenteService.registerUtente(registration);
     }
 
     @GetMapping("get-by-id/{utenteId}")
-    public Utente getUtenteById(@PathVariable String utenteId) {
+    public GenericResponse<Utente> getUtenteById(@PathVariable String utenteId) {
 
-        Utente utente = utenteService.getUtenteById(utenteId);
-        return utente;
+        return utenteService.getUtenteById(utenteId);
     }
 
     @GetMapping("get-by-email/{utenteEmail}")
-    public Utente getUtenteByEmail(@PathVariable String utenteEmail) {
+    public GenericResponse<Utente> getUtenteByEmail(@PathVariable String utenteEmail) {
 
-        Utente utente = utenteService.getUtenteByEmail(utenteEmail);
-        return utente;
+        return utenteService.getUtenteByEmail(utenteEmail);
     }
 
     @DeleteMapping("delete")
-    public String deleteUtente(@RequestBody Map<String, String> id) {
-        return utenteService.deleteUtenteById(id.get("id"));
+    public GenericResponse<Utente> deleteUtente(@RequestBody Map<String, String> id) {
+        return utenteService.deleteUtenteById(id.get("utenteId"));
     }
 
     @PutMapping("update")
-    public Utente updateUtente(@RequestBody Utente utente) {
+    public GenericResponse<Utente> updateUtente(@RequestBody Utente utente) {
         return utenteService.updateUtente(utente);
     }
 

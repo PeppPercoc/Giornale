@@ -35,10 +35,10 @@ public class ArticoloService {
      //rispetta proprietà acid
      //CREATE
     @Transactional
-    public GenericResponse<Articolo> insertArticolo(ArticoloRegistration registration) throws Exception {
+    public GenericResponse<Articolo> insertArticolo(ArticoloRegistration registration) {
 
         if (!existJournalists(registration.getListaGiornalistiId())) {
-            throw new Exception("Giornalista not found");
+            return new GenericResponse<>(null, "Giornalista not found", HttpStatus.NOT_FOUND.value());
         }
 
         val articolo = new Articolo(registration);
@@ -46,31 +46,30 @@ public class ArticoloService {
         return new GenericResponse<>(articolo, null, HttpStatus.OK.value());
     }
     //READ
-    public GenericResponse<List<Articolo>> getArticoloByTitolo(String articoloTitolo) throws Exception {
-        return articoloRepository.findArticoloByTitolo(articoloTitolo)
-                .map(l -> new GenericResponse<>(l, null, HttpStatus.OK.value()))
-                .orElseThrow(() -> new Exception("Articolo not found"));
+    public GenericResponse<List<Articolo>> getArticoloByTitolo(String articoloTitolo) {
+        val articoloList = articoloRepository.findArticoloByTitolo(articoloTitolo);
+        return new GenericResponse<>(articoloList, null, HttpStatus.OK.value());
     }
 
     //UPDATE
     @Transactional
-    public GenericResponse<Articolo> updateArticolo(Articolo articolo) throws Exception {
+    public GenericResponse<Articolo> updateArticolo(Articolo articolo) {
         return articoloRepository.findById(articolo.getId())
                 .map(a -> {
                     articoloRepository.save(articolo);
                     return new GenericResponse<>(articolo, null, HttpStatus.OK.value());
                 })
-                .orElseThrow(() -> new Exception("Articolo ID not found"));
+                .orElse(new GenericResponse<>(null,"Articolo ID not found", HttpStatus.NOT_FOUND.value()));
     }
 
 
     //DELETE
-    public GenericResponse<Articolo> deleteArticoloById(String articoloId) throws Exception {
+    public GenericResponse<Articolo> deleteArticoloById(String articoloId) {
         return articoloRepository.findById(articoloId)
                 .map(a -> {
                     articoloRepository.deleteById(articoloId);
                     return new GenericResponse<>(a, null, HttpStatus.OK.value());
                 })
-                .orElseThrow(() -> new Exception("Articolo ID not found"));
+                .orElse(new GenericResponse<>(null, "Articolo ID not found", HttpStatus.NOT_FOUND.value()));
     }
 }
