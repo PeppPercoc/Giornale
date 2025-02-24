@@ -28,6 +28,7 @@ public class PubblicazioneService {
     private final UtenteRepository utenteRepository;
 
     //CREATE
+    @Transactional
     public GenericResponse<Pubblicazione> insertPubblicazione(PubblicazioneRegistration registration) {
         if(existArticles(registration.getListaArticoliId())) {
             pubblicazioneRepository.insert(new Pubblicazione(registration));
@@ -70,7 +71,7 @@ public class PubblicazioneService {
                     pubblicazioneRepository.deleteById(pubblicazioneId);
                     return new GenericResponse<>((Pubblicazione)null, null, HttpStatus.OK.value());
                 })
-                .orElse(new GenericResponse<>(null, "Giornalista ID not found", HttpStatus.NOT_FOUND.value()));
+                .orElse(new GenericResponse<>(null, "Pubblicazione ID not found", HttpStatus.NOT_FOUND.value()));
     }
 
     @Transactional

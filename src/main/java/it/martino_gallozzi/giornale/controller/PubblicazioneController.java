@@ -37,7 +37,7 @@ public class PubblicazioneController {
         return pubblicazioneService.updatePubblicazione(pubblicazione);
     }
 
-    @PutMapping("add-utente/{pubblicazioneId}/{utenteId}")
+    @PutMapping("add-utente")
     public GenericResponse<Pubblicazione> addUtenteById(@RequestBody Map<String, String> ids) {
         val pubblicazioneId = ids.get("pubblicazioneId");
         val utenteId = ids.get("utenteId");

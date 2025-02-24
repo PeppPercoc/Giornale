@@ -6,6 +6,7 @@ import it.martino_gallozzi.giornale.repository.ArticoloRepository;
 import it.martino_gallozzi.giornale.repository.GiornalistaRepository;
 import it.martino_gallozzi.giornale.response.GenericResponse;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ public class ArticoloService {
     private final ArticoloRepository articoloRepository;
     private final GiornalistaRepository giornalistaRepository;
 
-    private boolean existJournalists(List<String> listaGiornalistiId) {
-        if (listaGiornalistiId == null || listaGiornalistiId.isEmpty()) {
+    private boolean existJournalists(@NonNull List<String> listaGiornalistiId) {
+        if (listaGiornalistiId.isEmpty()) {
             return false; // Non accettiamo articoli senza giornalisti
         }
 

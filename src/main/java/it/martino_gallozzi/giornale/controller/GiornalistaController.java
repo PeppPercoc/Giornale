@@ -33,7 +33,7 @@ public class GiornalistaController {
 
     @DeleteMapping("delete")
     public GenericResponse<Giornalista> deleteGiornalista(@RequestBody Map<String, String> id) {
-        return giornalistaService.deleteGiornalistaById(id.get("id"));
+        return giornalistaService.deleteGiornalistaById(id.get("giornalistaId"));
     }
 
     @PutMapping("update")
