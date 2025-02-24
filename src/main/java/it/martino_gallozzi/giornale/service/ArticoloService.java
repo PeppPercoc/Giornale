@@ -10,9 +10,7 @@ import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -43,8 +41,15 @@ public class ArticoloService {
 
         val articolo = new Articolo(registration);
         articoloRepository.insert(articolo);
-        return new GenericResponse<>(articolo, null, HttpStatus.OK.value());
+        return new GenericResponse<>(null, null, HttpStatus.OK.value());
     }
+
+    public GenericResponse<Articolo> getArticoloById(String articoloId) {
+        return articoloRepository.findById(articoloId)
+                .map(a -> new GenericResponse<>(a, null, HttpStatus.OK.value()))
+                .orElse(new GenericResponse<>(null, "Articolo not found", HttpStatus.NOT_FOUND.value()));
+    }
+
     //READ
     public GenericResponse<List<Articolo>> getArticoloByTitolo(String articoloTitolo) {
         val articoloList = articoloRepository.findArticoloByTitolo(articoloTitolo);
@@ -57,18 +62,17 @@ public class ArticoloService {
         return articoloRepository.findById(articolo.getId())
                 .map(a -> {
                     articoloRepository.save(articolo);
-                    return new GenericResponse<>(articolo, null, HttpStatus.OK.value());
+                    return new GenericResponse<>((Articolo) null, null, HttpStatus.OK.value());
                 })
                 .orElse(new GenericResponse<>(null,"Articolo ID not found", HttpStatus.NOT_FOUND.value()));
     }
-
 
     //DELETE
     public GenericResponse<Articolo> deleteArticoloById(String articoloId) {
         return articoloRepository.findById(articoloId)
                 .map(a -> {
                     articoloRepository.deleteById(articoloId);
-                    return new GenericResponse<>(a, null, HttpStatus.OK.value());
+                    return new GenericResponse<>((Articolo) null, null, HttpStatus.OK.value());
                 })
                 .orElse(new GenericResponse<>(null, "Articolo ID not found", HttpStatus.NOT_FOUND.value()));
     }

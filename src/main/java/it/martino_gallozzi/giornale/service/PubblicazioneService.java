@@ -1,9 +1,18 @@
 package it.martino_gallozzi.giornale.service;
 
+import it.martino_gallozzi.giornale.dto.PubblicazioneRegistration;
+import it.martino_gallozzi.giornale.entity.Giornalista;
 import it.martino_gallozzi.giornale.entity.Pubblicazione;
 import it.martino_gallozzi.giornale.repository.ArticoloRepository;
 import it.martino_gallozzi.giornale.repository.PubblicazioneRepository;
+import it.martino_gallozzi.giornale.repository.UtenteRepository;
+import it.martino_gallozzi.giornale.response.GenericResponse;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Generated;
+import lombok.NonNull;
+import lombok.val;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,103 +25,83 @@ import java.util.Optional;
 public class PubblicazioneService {
     private final PubblicazioneRepository pubblicazioneRepository;
     private final ArticoloRepository articoloRepository;
+    private final UtenteRepository utenteRepository;
 
     //CREATE
-    public Pubblicazione insertPubblicazione(Pubblicazione pubblicazione) {
-        if(! pubblicazione.getListaUtentiId().isEmpty())
-            pubblicazione.getListaUtentiId().clear();
-
-        if(! existArticles(pubblicazione.getListaArticoliId()))
-            System.out.println("One or more articles do not exist, insertion failed");
-
-        else {
-            pubblicazioneRepository.findById(pubblicazione.getId()).ifPresentOrElse(s -> {
-                System.out.println("Publication " + s + " already exists");
-            }, () -> {
-                System.out.println("Inserting publication " + pubblicazione);
-                pubblicazioneRepository.insert(pubblicazione);
-            });
+    public GenericResponse<Pubblicazione> insertPubblicazione(PubblicazioneRegistration registration) {
+        if(existArticles(registration.getListaArticoliId())) {
+            pubblicazioneRepository.insert(new Pubblicazione(registration));
+            return new GenericResponse<>(null , null, HttpStatus.OK.value());
         }
-        return pubblicazione;
+        else {
+            return new GenericResponse<>(null, "Articolo ID not found", HttpStatus.NOT_FOUND.value());
+        }
     }
 
-    public boolean existArticles(List<String> listArticlesId){
-        if (listArticlesId == null || listArticlesId.isEmpty())
+    private boolean existArticles(@NonNull List<String> listArticlesId){
+        if (listArticlesId.isEmpty())
             return false;
 
         long count = articoloRepository.countByIdIn(listArticlesId);
-
         return count == listArticlesId.size();
     }
 
-    //READ
-    public Pubblicazione getPubblicazioneByTitolo(String pubblicazioneTitolo) {
-        Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findPubblicazioneByTitolo(pubblicazioneTitolo);
-        return pubblicazione.orElse(null);
+    public GenericResponse<Pubblicazione> getPubblicazioneById(String pubblicazioneId){
+        return pubblicazioneRepository.findById(pubblicazioneId)
+            .map(p -> new GenericResponse<>(p, null, HttpStatus.OK.value()))
+            .orElse(new GenericResponse<>(null, "Pubblicazione not found", HttpStatus.NOT_FOUND.value()));
     }
 
-    public Pubblicazione getPubblicazioneById(String pubblicazioneId){
-        Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findById(pubblicazioneId);
-        return pubblicazione.orElse(null);
-    }
     //UPDATE
-    public Pubblicazione updatePubblicazione(Pubblicazione pubblicazione) {
-        Optional<Pubblicazione> existingPubblicazione = pubblicazioneRepository.findById(pubblicazione.getId());
-
-        if (existingPubblicazione.isPresent()) {
-            System.out.println("Publication " + pubblicazione.getId() + " updated");
-            return pubblicazioneRepository.save(pubblicazione);
-        } else {
-            return null;
-        }
+    public GenericResponse<Pubblicazione> updatePubblicazione(Pubblicazione pubblicazione) {
+        return pubblicazioneRepository.findById(pubblicazione.getId())
+                .map(p -> {
+                    pubblicazioneRepository.save(pubblicazione);
+                    return new GenericResponse<>((Pubblicazione)null, null, HttpStatus.OK.value());
+                })
+                .orElse(new GenericResponse<>(null, "Pubblicazione ID not found", HttpStatus.NOT_FOUND.value()));
     }
+
     //DELETE
-    public String deletePubblicazioneById(String pubblicazioneId) {
-        if (pubblicazioneRepository.existsById(pubblicazioneId)) {
-            pubblicazioneRepository.deleteById(pubblicazioneId);
-            return "Publication " + pubblicazioneId + " deleted";
-        } else{
-            return "Publication id is not present in database";
-        }
+    @Transactional
+    public GenericResponse<Pubblicazione> deletePubblicazioneById(String pubblicazioneId) {
+        return pubblicazioneRepository.findById(pubblicazioneId)
+                .map(p -> {
+                    pubblicazioneRepository.deleteById(pubblicazioneId);
+                    return new GenericResponse<>((Pubblicazione)null, null, HttpStatus.OK.value());
+                })
+                .orElse(new GenericResponse<>(null, "Giornalista ID not found", HttpStatus.NOT_FOUND.value()));
     }
 
     @Transactional
-    public Boolean addUtenteById(String pubblicazioneId, String utenteId) {
-        Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findById(pubblicazioneId);
+    public GenericResponse<Pubblicazione> addUtenteById(@NonNull String pubblicazioneId, @NonNull String utenteId) {
+        val pubblicazioneOpt = pubblicazioneRepository.findById(pubblicazioneId);
+        val utenteOpt = utenteRepository.findById(utenteId);
 
-        pubblicazione.ifPresent(p -> {
-            p.getListaUtentiId().add(utenteId);
-            pubblicazioneRepository.save(p);
-        });
-
-        return pubblicazione.map(p -> true).orElse(false);
+        if(pubblicazioneOpt.isEmpty()){
+            return new GenericResponse<>(null, "Pubblicazione not found", HttpStatus.NOT_FOUND.value());
+        }
+        else if(utenteOpt.isEmpty()) {
+            return new GenericResponse<>(null, "Utente not found", HttpStatus.NOT_FOUND.value());
+        }
+        else {
+            val pubblicazione = pubblicazioneOpt.get();
+            val utente = utenteOpt.get();
+            pubblicazione.getListaUtentiId().add(utente.getId());
+            pubblicazioneRepository.save(pubblicazione);
+            return new GenericResponse<>(null, null, HttpStatus.OK.value());
+        }
     }
 
-    public List<String> getUsersListById(String pubblicazioneId){
-        Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findById(pubblicazioneId);
-
-        if(pubblicazione.isEmpty()) {
-            System.out.println("Publication not found, action denied");
-            //List<String> emptyList = new ArrayList<>();
-            return new ArrayList<String>();
-        }
-
-        //List usersList = new ArrayList<>(pubblicazione.get().getListaUtentiId());
-
-        return new ArrayList<>(pubblicazione.get().getListaUtentiId());
+    public GenericResponse<List<String>> getUsersListById(String pubblicazioneId){
+        return pubblicazioneRepository.findById(pubblicazioneId)
+            .map(p -> new GenericResponse<>(p.getListaUtentiId(), null, HttpStatus.OK.value()))
+            .orElse(new GenericResponse<>(null, "Pubblicazione ID not found", HttpStatus.NOT_FOUND.value()));
     }
 
-    public List<String> getArticlesListById(String pubblicazioneId){
-        Optional<Pubblicazione> pubblicazione = pubblicazioneRepository.findById(pubblicazioneId);
-
-        if(pubblicazione.isEmpty()) {
-            System.out.println("Publication not found, action denied");
-            //List<String> emptyList = new ArrayList<>();
-            return new ArrayList<>();
-        }
-
-        //List articleList = new ArrayList<>(pubblicazione.get().getListaArticoliId());
-
-        return new ArrayList<>(pubblicazione.get().getListaArticoliId());
+    public GenericResponse<List<String>> getArticlesListById(String pubblicazioneId){
+        return pubblicazioneRepository.findById(pubblicazioneId)
+                .map(p -> new GenericResponse<>(p.getListaArticoliId(), null, HttpStatus.OK.value()))
+                .orElse(new GenericResponse<>(null, "Pubblicazione ID not found", HttpStatus.NOT_FOUND.value()));
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -22,8 +21,9 @@ public class GiornalistaService {
     public GenericResponse<Giornalista> registerGiornalista(GiornalistaRegistration registartion) {
         val giornalista = new Giornalista(registartion);
         giornalistaRepository.insert(giornalista);
-        return new GenericResponse<>(giornalista, null, HttpStatus.OK.value());
+        return new GenericResponse<>(null, null, HttpStatus.OK.value());
     }
+
     //READ
     public GenericResponse<Giornalista> getGiornalistaById(String giornalistaId) {
         return giornalistaRepository.findById(giornalistaId)
@@ -42,18 +42,20 @@ public class GiornalistaService {
         return giornalistaRepository.findById(giornalista.getId())
                 .map(g -> {
                     giornalistaRepository.save(giornalista);
-                    return new GenericResponse<>(giornalista, null, HttpStatus.OK.value());
+                    return new GenericResponse<>((Giornalista) null, null, HttpStatus.OK.value());
                 })
                 .orElse(new GenericResponse<>(null, "Giornalista ID not found", HttpStatus.NOT_FOUND.value()));
     }
+
     //DELETE
     @Transactional
     public GenericResponse<Giornalista> deleteGiornalistaById(String giornalistaId) {
         return giornalistaRepository.findById(giornalistaId)
                 .map(g -> {
                     giornalistaRepository.deleteById(giornalistaId);
-                    return new GenericResponse<>(g, null, HttpStatus.OK.value());
+                    return new GenericResponse<>((Giornalista) null, null, HttpStatus.OK.value());
                 })
                 .orElse(new GenericResponse<>(null, "Giornalista ID not found", HttpStatus.NOT_FOUND.value()));
     }
+
 }

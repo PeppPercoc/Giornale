@@ -22,22 +22,22 @@ public class GiornalistaController {
     }
 
     @GetMapping("get-by-id/{giornalistaId}")
-    public GenericResponse<Giornalista> getGiornalistaById(@PathVariable String giornalistaId) throws Exception {
+    public GenericResponse<Giornalista> getGiornalistaById(@PathVariable String giornalistaId) {
         return giornalistaService.getGiornalistaById(giornalistaId);
     }
 
     @GetMapping("get-by-name/{giornalistaName}")
-    public GenericResponse<List<Giornalista>> getGiornalistaByName(@PathVariable String giornalistaName) throws Exception {
+    public GenericResponse<List<Giornalista>> getGiornalistaByName(@PathVariable String giornalistaName) {
         return giornalistaService.getGiornalistaByName(giornalistaName);
     }
 
     @DeleteMapping("delete")
-    public GenericResponse<Giornalista> deleteGiornalista(@RequestBody Map<String, String> id) throws Exception {
+    public GenericResponse<Giornalista> deleteGiornalista(@RequestBody Map<String, String> id) {
         return giornalistaService.deleteGiornalistaById(id.get("id"));
     }
 
     @PutMapping("update")
-    public GenericResponse<Giornalista> updateGiornalista(@RequestBody Giornalista giornalista) throws Exception {
+    public GenericResponse<Giornalista> updateGiornalista(@RequestBody Giornalista giornalista) {
         return giornalistaService.updateGiornalista(giornalista);
     }
 }
