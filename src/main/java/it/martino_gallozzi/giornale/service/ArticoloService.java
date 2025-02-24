@@ -1,9 +1,13 @@
 package it.martino_gallozzi.giornale.service;
 
+import it.martino_gallozzi.giornale.dto.ArticoloRegistration;
 import it.martino_gallozzi.giornale.entity.Articolo;
 import it.martino_gallozzi.giornale.repository.ArticoloRepository;
 import it.martino_gallozzi.giornale.repository.GiornalistaRepository;
+import it.martino_gallozzi.giornale.response.GenericResponse;
 import lombok.AllArgsConstructor;
+import lombok.val;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +20,7 @@ public class ArticoloService {
     private final ArticoloRepository articoloRepository;
     private final GiornalistaRepository giornalistaRepository;
 
-    public boolean existJournalists(List<String> listaGiornalistiId) {
+    private boolean existJournalists(List<String> listaGiornalistiId) {
         if (listaGiornalistiId == null || listaGiornalistiId.isEmpty()) {
             return false; // Non accettiamo articoli senza giornalisti
         }
@@ -31,72 +35,42 @@ public class ArticoloService {
      //rispetta proprietà acid
      //CREATE
     @Transactional
-    public Articolo insertArticolo(Articolo articolo) {
+    public GenericResponse<Articolo> insertArticolo(ArticoloRegistration registration) throws Exception {
 
-        if (!existJournalists(articolo.getListaGiornalistiId())) {
-            return null;
+        if (!existJournalists(registration.getListaGiornalistiId())) {
+            throw new Exception("Giornalista not found");
         }
 
-        articoloRepository.findArticoloByTitolo(articolo.getTitolo()).ifPresentOrElse(s -> {
-            System.out.println("Article " + s + " already exists");
-        }, () -> {
-            System.out.println("Inserting article " + articolo);
-            articoloRepository.insert(articolo);
-        });
-        return articolo;
+        val articolo = new Articolo(registration);
+        articoloRepository.insert(articolo);
+        return new GenericResponse<>(articolo, null, HttpStatus.OK.value());
     }
     //READ
-    public List<Articolo> getArticoloByTitolo(String articoloTitolo){
-        Optional<List<Articolo>> listaArticolo = articoloRepository.findArticoloByTitolo(articoloTitolo);
-        return listaArticolo.orElse(null);
+    public GenericResponse<List<Articolo>> getArticoloByTitolo(String articoloTitolo) throws Exception {
+        return articoloRepository.findArticoloByTitolo(articoloTitolo)
+                .map(l -> new GenericResponse<>(l, null, HttpStatus.OK.value()))
+                .orElseThrow(() -> new Exception("Articolo not found"));
     }
 
     //UPDATE
     @Transactional
-    public Articolo updateArticolo(Articolo articolo) {
-        Optional<Articolo> existingArticolo = articoloRepository.findById(articolo.getId());
-
-        boolean giornalistiValidi = existJournalists(articolo.getListaGiornalistiId());
-
-        if (!giornalistiValidi) {
-            return null;
-        }
-
-        if (existingArticolo.isPresent()) {
-            System.out.println("Article " + articolo.getId() + " updated");
-            return articoloRepository.save(articolo);
-        } else {
-            return null;
-        }
+    public GenericResponse<Articolo> updateArticolo(Articolo articolo) throws Exception {
+        return articoloRepository.findById(articolo.getId())
+                .map(a -> {
+                    articoloRepository.save(articolo);
+                    return new GenericResponse<>(articolo, null, HttpStatus.OK.value());
+                })
+                .orElseThrow(() -> new Exception("Articolo ID not found"));
     }
 
-    @Transactional
-    public Articolo updateGiornalistiArticolo(Articolo articolo, List<String> listaGiornalisti) {
-        Optional<Articolo> existingArticolo = articoloRepository.findById(articolo.getId());
-
-        boolean giornalistiValidi = existJournalists(listaGiornalisti);
-
-        if (!giornalistiValidi) {
-            return null;
-        }
-
-        articolo.setListaGiornalistiId(listaGiornalisti);
-
-        if (existingArticolo.isPresent()) {
-            System.out.println("Article " + articolo.getId() + " updated");
-            return articoloRepository.save(articolo);
-        } else {
-            return null;
-        }
-    }
 
     //DELETE
-    public String deleteArticoloById(String articoloTitolo) {
-        if (articoloRepository.existsById(articoloTitolo)) {
-            articoloRepository.deleteById(articoloTitolo);
-            return "Article " + articoloTitolo + " deleted";
-        } else{
-            return "Article title is not present in database";
-        }
+    public GenericResponse<Articolo> deleteArticoloById(String articoloId) throws Exception {
+        return articoloRepository.findById(articoloId)
+                .map(a -> {
+                    articoloRepository.deleteById(articoloId);
+                    return new GenericResponse<>(a, null, HttpStatus.OK.value());
+                })
+                .orElseThrow(() -> new Exception("Articolo ID not found"));
     }
 }

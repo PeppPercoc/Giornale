@@ -5,7 +5,7 @@ import it.martino_gallozzi.giornale.entity.Giornalista;
 import it.martino_gallozzi.giornale.repository.GiornalistaRepository;
 import it.martino_gallozzi.giornale.response.GenericResponse;
 import lombok.AllArgsConstructor;
-import lombok.var;
+import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,7 @@ public class GiornalistaService {
 
     //CREATE
     public GenericResponse<Giornalista> registerGiornalista(GiornalistaRegistration registartion) {
-        var giornalista = new Giornalista(registartion);
+        val giornalista = new Giornalista(registartion);
         giornalistaRepository.insert(giornalista);
         return new GenericResponse<>(giornalista, null, HttpStatus.OK.value());
     }
@@ -41,8 +41,8 @@ public class GiornalistaService {
     public GenericResponse<Giornalista> updateGiornalista(Giornalista giornalista) throws Exception {
         return giornalistaRepository.findById(giornalista.getId())
                 .map(g -> {
-                    giornalistaRepository.save(g);
-                    return new GenericResponse<>(g, null, HttpStatus.OK.value());
+                    giornalistaRepository.save(giornalista);
+                    return new GenericResponse<>(giornalista, null, HttpStatus.OK.value());
                 })
                 .orElseThrow(() -> new Exception("Giornalista ID not found"));
     }
@@ -50,7 +50,10 @@ public class GiornalistaService {
     @Transactional
     public GenericResponse<Giornalista> deleteGiornalistaById(String giornalistaId) throws Exception {
         return giornalistaRepository.findById(giornalistaId)
-                .map(g -> new GenericResponse<>(g, null, HttpStatus.OK.value()))
+                .map(g -> {
+                    giornalistaRepository.deleteById(giornalistaId);
+                    return new GenericResponse<>(g, null, HttpStatus.OK.value());
+                })
                 .orElseThrow(() -> new Exception("Giornalista ID not found"));
     }
 }
