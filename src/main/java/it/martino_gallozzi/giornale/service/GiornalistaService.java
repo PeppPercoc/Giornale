@@ -1,9 +1,14 @@
 package it.martino_gallozzi.giornale.service;
 
+import it.martino_gallozzi.giornale.dto.GiornalistaRegistration;
 import it.martino_gallozzi.giornale.entity.Giornalista;
 import it.martino_gallozzi.giornale.repository.GiornalistaRepository;
+import it.martino_gallozzi.giornale.response.GenericResponse;
 import lombok.AllArgsConstructor;
+import lombok.var;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,43 +19,38 @@ public class GiornalistaService {
     private final GiornalistaRepository giornalistaRepository;
 
     //CREATE
-    public Giornalista insertGiornalista(Giornalista giornalista) {
-        giornalistaRepository.findById(giornalista.getId()).ifPresentOrElse(s -> {
-            System.out.println("Journalist " + s + " already exists");
-        }, () -> {
-            System.out.println("Inserting journalist " + giornalista);
-            giornalistaRepository.insert(giornalista);
-        });
-        return giornalista;
+    public GenericResponse<Giornalista> registerGiornalista(GiornalistaRegistration registartion) {
+        var giornalista = new Giornalista(registartion);
+        giornalistaRepository.insert(giornalista);
+        return new GenericResponse<>(giornalista, null, HttpStatus.OK.value());
     }
     //READ
-    public Giornalista getGiornalistaById(String giornalistaId) {
-        Optional<Giornalista> giornalista = giornalistaRepository.findById(giornalistaId);
-        return giornalista.orElse(null);
+    public GenericResponse<Giornalista> getGiornalistaById(String giornalistaId) throws Exception {
+        return giornalistaRepository.findById(giornalistaId)
+                .map(g -> new GenericResponse<>(g, null, HttpStatus.OK.value()))
+                .orElseThrow(() -> new Exception("Giornalista not found"));
     }
 
-    public List<Giornalista> getGiornalistaByName(String giornalistaNome) {
-        Optional<List<Giornalista>> listaGiornalista = giornalistaRepository.findGiornalistaByNome(giornalistaNome);
-        return listaGiornalista.orElse(null);
+    public GenericResponse<List<Giornalista>> getGiornalistaByName(String giornalistaNome) throws Exception {
+        return giornalistaRepository.findGiornalistaByNome(giornalistaNome)
+                .map(l -> new GenericResponse<>(l, null, HttpStatus.OK.value()))
+                .orElseThrow(() -> new Exception("Giornalista not found"));
     }
     //UPDATE
-    public Giornalista updateGiornalista(Giornalista giornalista) {
-        Optional<Giornalista> existingGiornalista = giornalistaRepository.findById(giornalista.getId());
-
-        if (existingGiornalista.isPresent()) {
-            System.out.println("Journalist " + giornalista.getId() + " updated");
-            return giornalistaRepository.save(giornalista);
-        } else {
-            return null;
-        }
+    @Transactional
+    public GenericResponse<Giornalista> updateGiornalista(Giornalista giornalista) throws Exception {
+        return giornalistaRepository.findById(giornalista.getId())
+                .map(g -> {
+                    giornalistaRepository.save(g);
+                    return new GenericResponse<>(g, null, HttpStatus.OK.value());
+                })
+                .orElseThrow(() -> new Exception("Giornalista ID not found"));
     }
     //DELETE
-    public String deleteGiornalistaById(String giornalistaId) {
-        if (giornalistaRepository.existsById(giornalistaId)) {
-            giornalistaRepository.deleteById(giornalistaId);
-            return "Journalist " + giornalistaId + " deleted";
-        } else{
-            return "Journalist id is not present in database";
-        }
+    @Transactional
+    public GenericResponse<Giornalista> deleteGiornalistaById(String giornalistaId) throws Exception {
+        return giornalistaRepository.findById(giornalistaId)
+                .map(g -> new GenericResponse<>(g, null, HttpStatus.OK.value()))
+                .orElseThrow(() -> new Exception("Giornalista ID not found"));
     }
 }

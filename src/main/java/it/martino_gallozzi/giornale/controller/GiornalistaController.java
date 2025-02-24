@@ -1,6 +1,8 @@
 package it.martino_gallozzi.giornale.controller;
 
+import it.martino_gallozzi.giornale.dto.GiornalistaRegistration;
 import it.martino_gallozzi.giornale.entity.Giornalista;
+import it.martino_gallozzi.giornale.response.GenericResponse;
 import it.martino_gallozzi.giornale.service.GiornalistaService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,40 +16,28 @@ import java.util.Map;
 public class GiornalistaController {
     private final GiornalistaService giornalistaService;
 
-    @PostMapping("insert-giornalista")
-    public Giornalista insertGiornalista(@RequestBody Giornalista giornalista) {
-        return giornalistaService.insertGiornalista(giornalista);
+    @PostMapping("register-giornalista")
+    public GenericResponse<Giornalista> registerGiornalista(@RequestBody GiornalistaRegistration giornalista) {
+        return giornalistaService.registerGiornalista(giornalista);
     }
 
     @GetMapping("get-by-id/{giornalistaId}")
-    public Giornalista getGiornalistaById(@PathVariable String giornalistaId) {
-
-        Giornalista giornalista = giornalistaService.getGiornalistaById(giornalistaId);
-        if(giornalista!=null){
-            return giornalista;
-        }else{
-            return null;
-        }
+    public GenericResponse<Giornalista> getGiornalistaById(@PathVariable String giornalistaId) throws Exception {
+        return giornalistaService.getGiornalistaById(giornalistaId);
     }
 
     @GetMapping("get-by-name/{giornalistaName}")
-    public List<Giornalista> getGiornalistaByName(@PathVariable String giornalistaName) {
-
-        List<Giornalista> listaGiornalisti = giornalistaService.getGiornalistaByName(giornalistaName);
-        if(listaGiornalisti!=null){
-            return listaGiornalisti;
-        }else{
-            return null;
-        }
+    public GenericResponse<List<Giornalista>> getGiornalistaByName(@PathVariable String giornalistaName) throws Exception {
+        return giornalistaService.getGiornalistaByName(giornalistaName);
     }
 
     @DeleteMapping("delete")
-    public String deleteGiornalista(@RequestBody Map<String, String> id) {
+    public GenericResponse<Giornalista> deleteGiornalista(@RequestBody Map<String, String> id) throws Exception {
         return giornalistaService.deleteGiornalistaById(id.get("id"));
     }
 
     @PutMapping("update")
-    public Giornalista updateGiornalista(@RequestBody Giornalista giornalista) {
+    public GenericResponse<Giornalista> updateGiornalista(@RequestBody Giornalista giornalista) throws Exception {
         return giornalistaService.updateGiornalista(giornalista);
     }
 }
