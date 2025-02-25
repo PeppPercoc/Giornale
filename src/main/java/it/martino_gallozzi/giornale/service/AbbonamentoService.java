@@ -23,10 +23,11 @@ public class AbbonamentoService {
 
     //CREATE
     public GenericResponse<Abbonamento> insertAbbonamento(String argomento, String periodicita) {
+        if(abbonamentoRepository.findByArgomento(argomento).isEmpty())
+            return new GenericResponse<>(null, "Abbonamento already exists", HttpStatus.NOT_ACCEPTABLE.value());
         Abbonamento abbonamento = new Abbonamento(argomento, periodicita);
-        return abbonamentoRepository.findByArgomento(abbonamento.getArgomento())
-                    .map(a -> new GenericResponse<>((Abbonamento)null, "Abbonamento already exists", HttpStatus.NOT_ACCEPTABLE.value()))
-                    .orElse(new GenericResponse<>(null, null, HttpStatus.OK.value()));
+        abbonamentoRepository.insert(abbonamento);
+        return new GenericResponse<>(null, null, HttpStatus.OK.value());
     }
 
     //READ
