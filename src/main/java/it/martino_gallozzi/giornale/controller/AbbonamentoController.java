@@ -18,7 +18,7 @@ public class AbbonamentoController {
 
     @PostMapping("insert-abbonamento")
     public GenericResponse<Abbonamento> insertAbbonamento(@RequestBody Map<String, String> params) {
-        return abbonamentoService.insertAbbonamento(params.get("abbonamentoId"), params.get("periodicita"));
+        return abbonamentoService.insertAbbonamento(params.get("argomento"), params.get("periodicita"));
     }
 
     @GetMapping("get-by-id/{abbonamentoId}")

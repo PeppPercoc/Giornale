@@ -28,12 +28,13 @@ public class PubblicazioneService {
     @Transactional(rollbackFor = Exception.class)
     public GenericResponse<Pubblicazione> insertPubblicazione(PubblicazioneRegistration registration) throws Exception {
         if(!abbonamentoRepository.existsById(registration.getAbbonamentoId())) {
-            return new GenericResponse<>(null, "Argomento does not exists", HttpStatus.NOT_FOUND.value());
+            return new GenericResponse<>(null, "Abbonamento Id does not exists", HttpStatus.NOT_FOUND.value());
         }
         if(articoloRepository.existsArticolosById(registration.getListaArticoliId())) {
             val pubblicazione = new Pubblicazione(registration.getPrezzo(), registration.getAbbonamentoId());
             pubblicazioneRepository.insert(pubblicazione);
-            for(Articolo articolo : articoloRepository.findArticolosById(registration.getListaArticoliId())) {
+            for(Articolo articolo : articoloRepository.findArticolosByIdIn(registration.getListaArticoliId())) {
+                registration.getListaArticoliId().remove(0);
                 if(articolo.getPubblicazioneID() != null) {
                     throw new Exception("Articolo already assigned to a Pubblicazione");
                 }
