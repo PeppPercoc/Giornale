@@ -1,5 +1,6 @@
 package it.martino_gallozzi.giornale.entity;
 
+import com.mongodb.lang.Nullable;
 import it.martino_gallozzi.giornale.dto.GiornalistaRegistration;
 import lombok.AllArgsConstructor;
 import lombok.Data;

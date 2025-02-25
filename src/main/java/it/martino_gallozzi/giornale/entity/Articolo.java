@@ -1,5 +1,6 @@
 package it.martino_gallozzi.giornale.entity;
 
+import com.mongodb.lang.Nullable;
 import it.martino_gallozzi.giornale.dto.ArticoloRegistration;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,11 +21,11 @@ public class Articolo {
     private String id;
     private String titolo;
     private String testo;
-    private List<String> listaGiornalistiId = new ArrayList<>();
+    @Nullable
+    private String pubblicazioneID = null;
 
-    public Articolo(ArticoloRegistration registration) {
-        this.titolo = registration.getTitolo();
-        this.testo = registration.getTesto();
-        this.listaGiornalistiId = registration.getListaGiornalistiId();
+    public Articolo(String titolo, String testo) {
+        this.titolo = titolo;
+        this.testo = testo;
     }
 }

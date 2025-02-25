@@ -2,7 +2,9 @@ package it.martino_gallozzi.giornale.service;
 
 import it.martino_gallozzi.giornale.dto.ArticoloRegistration;
 import it.martino_gallozzi.giornale.entity.Articolo;
+import it.martino_gallozzi.giornale.relation.ArticoloGiornalistaRelation;
 import it.martino_gallozzi.giornale.repository.ArticoloRepository;
+import it.martino_gallozzi.giornale.repository.ArticoloGiornalistaRelationRepository;
 import it.martino_gallozzi.giornale.repository.GiornalistaRepository;
 import it.martino_gallozzi.giornale.response.GenericResponse;
 import lombok.AllArgsConstructor;
@@ -18,30 +20,22 @@ import java.util.List;
 public class ArticoloService {
     private final ArticoloRepository articoloRepository;
     private final GiornalistaRepository giornalistaRepository;
-
-    private boolean existJournalists(@NonNull List<String> listaGiornalistiId) {
-        if (listaGiornalistiId.isEmpty()) {
-            return false; // Non accettiamo articoli senza giornalisti
-        }
-
-        // Conta quanti ID esistono nel database
-        long count = giornalistaRepository.countByIdIn(listaGiornalistiId);
-
-        // Se il numero di ID trovati è uguale alla lista passata, significa che tutti gli ID esistono
-        return count == listaGiornalistiId.size();
-    }
+    private final ArticoloGiornalistaRelationRepository giornalistaArticoloRelation;
 
      //rispetta proprietà acid
-     //CREATE
+     // CREATE
     @Transactional
     public GenericResponse<Articolo> insertArticolo(ArticoloRegistration registration) {
 
-        if (!existJournalists(registration.getListaGiornalistiId())) {
+        if (!giornalistaRepository.existsAllByGiornalistaId(registration.getListaGiornalistiId())) {
             return new GenericResponse<>(null, "Giornalista not found", HttpStatus.NOT_FOUND.value());
         }
 
-        val articolo = new Articolo(registration);
+        val articolo = new Articolo(registration.getTitolo(), registration.getTesto());
         articoloRepository.insert(articolo);
+        for (String giornalistaId : registration.getListaGiornalistiId()) {
+            giornalistaArticoloRelation.insert(new ArticoloGiornalistaRelation(articolo.getId(), giornalistaId));
+        }
         return new GenericResponse<>(null, null, HttpStatus.OK.value());
     }
 
@@ -69,10 +63,12 @@ public class ArticoloService {
     }
 
     //DELETE
+    @Transactional
     public GenericResponse<Articolo> deleteArticoloById(String articoloId) {
         return articoloRepository.findById(articoloId)
                 .map(a -> {
                     articoloRepository.deleteById(articoloId);
+                    giornalistaArticoloRelation.deleteArticoloGiornalistaRelationsByArticoloId(articoloId);
                     return new GenericResponse<>((Articolo) null, null, HttpStatus.OK.value());
                 })
                 .orElse(new GenericResponse<>(null, "Articolo ID not found", HttpStatus.NOT_FOUND.value()));

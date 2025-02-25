@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -16,9 +17,10 @@ import java.util.List;
 @NoArgsConstructor
 public class Abbonamento {
     @Id
+    private String id;
+    @Indexed(unique = true)
     private String argomento;
     private String periodicita;
-    private List<String> listaUtentiId = new ArrayList<>();
 
     public Abbonamento(String argomento, String periodicita) {
         this.argomento = argomento;

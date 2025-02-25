@@ -19,12 +19,9 @@ public class Pubblicazione {
     private String id;
     private Float prezzo;
     private String argomento;
-    private List<String> listaArticoliId = new ArrayList<>();
-    private List<String> listaUtentiId = new ArrayList<>();
 
-    public Pubblicazione(PubblicazioneRegistration registartion) {
-        this.prezzo = registartion.getPrezzo();
-        this.argomento = registartion.getArgomento();
-        this.listaArticoliId = registartion.getListaArticoliId();
+    public Pubblicazione(Float prezzo, String argomento) {
+        this.prezzo = prezzo;
+        this.argomento = argomento;
     }
 }

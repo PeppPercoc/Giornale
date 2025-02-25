@@ -3,6 +3,8 @@ package it.martino_gallozzi.giornale.service;
 import it.martino_gallozzi.giornale.dto.UtenteRegistration;
 import it.martino_gallozzi.giornale.entity.Giornalista;
 import it.martino_gallozzi.giornale.entity.Utente;
+import it.martino_gallozzi.giornale.repository.UtenteAbbonamentoRelationRepository;
+import it.martino_gallozzi.giornale.repository.UtentePubblicazioneRelationRepository;
 import it.martino_gallozzi.giornale.repository.UtenteRepository;
 import it.martino_gallozzi.giornale.response.GenericResponse;
 import lombok.AllArgsConstructor;
@@ -16,13 +18,21 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UtenteService {
     private final UtenteRepository utenteRepository;
+    private final UtenteAbbonamentoRelationRepository abbonamentoRelationRepository;
+    private final UtentePubblicazioneRelationRepository pubblicazioneRelationRepository;
 
     //CREATE
     public GenericResponse<Utente> registerUtente(UtenteRegistration registration) {
-        val utente = new Utente(registration);
-        utenteRepository.insert(utente);
-        return new GenericResponse<>(null, null, HttpStatus.OK.value());
+        if(utenteRepository.existsUtenteByEmail(registration.getEmail())) {
+            return new GenericResponse<>(null, "Email already exists", HttpStatus.NOT_ACCEPTABLE.value());
+        }
+        else {
+            val utente = new Utente(registration);
+            utenteRepository.insert(utente);
+            return new GenericResponse<>(null, null, HttpStatus.OK.value());
+        }
     }
+
     //READ
     public GenericResponse<Utente> getUtenteById(String utenteId) {
         return utenteRepository.findById(utenteId)
@@ -50,6 +60,8 @@ public class UtenteService {
     public GenericResponse<Utente> deleteUtenteById(String utenteId) {
         return utenteRepository.findById(utenteId)
                 .map(u -> {
+                    abbonamentoRelationRepository.deleteUtenteAbbonamentoRelationsByUtenteId(utenteId);
+                    pubblicazioneRelationRepository.deleteUtentePubblicazioneRelationsByUtenteId(utenteId);
                     utenteRepository.deleteById(utenteId);
                     return new GenericResponse<>((Utente) null, null, HttpStatus.OK.value());
                 })

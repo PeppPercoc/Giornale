@@ -6,6 +6,7 @@ import it.martino_gallozzi.giornale.response.GenericResponse;
 import it.martino_gallozzi.giornale.service.PubblicazioneService;
 import lombok.AllArgsConstructor;
 import lombok.val;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,11 @@ public class PubblicazioneController {
 
     @PostMapping("insert-pubblicazione")
     public GenericResponse<Pubblicazione> insertPubblicazione(@RequestBody PubblicazioneRegistration registration) {
-        return pubblicazioneService.insertPubblicazione(registration);
+        try {
+            return pubblicazioneService.insertPubblicazione(registration);
+        } catch (Exception e) {
+            return new GenericResponse<>(null, e.getMessage(), HttpStatus.NOT_ACCEPTABLE.value());
+        }
     }
 
     @GetMapping("get-by-id/{pubblicazioneId}")

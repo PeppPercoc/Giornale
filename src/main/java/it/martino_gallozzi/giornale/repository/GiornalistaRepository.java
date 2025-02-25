@@ -9,7 +9,11 @@ import java.util.Optional;
 
 @Repository
 public interface GiornalistaRepository extends MongoRepository<Giornalista, String> {
-    Optional<List<Giornalista>> findGiornalistaByNome(String nome);
-
     long countByIdIn(List<String> listaGiornalistiId);
+
+    boolean existsAllByGiornalistaId(List<String> ids);
+
+    List<Giornalista> findGiornalistasByNome(String nome);
+
+
 }

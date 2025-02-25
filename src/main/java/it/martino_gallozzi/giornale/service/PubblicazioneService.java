@@ -1,11 +1,11 @@
 package it.martino_gallozzi.giornale.service;
 
 import it.martino_gallozzi.giornale.dto.PubblicazioneRegistration;
+import it.martino_gallozzi.giornale.entity.Articolo;
 import it.martino_gallozzi.giornale.entity.Giornalista;
 import it.martino_gallozzi.giornale.entity.Pubblicazione;
-import it.martino_gallozzi.giornale.repository.ArticoloRepository;
-import it.martino_gallozzi.giornale.repository.PubblicazioneRepository;
-import it.martino_gallozzi.giornale.repository.UtenteRepository;
+import it.martino_gallozzi.giornale.relation.UtentePubblicazioneRelation;
+import it.martino_gallozzi.giornale.repository.*;
 import it.martino_gallozzi.giornale.response.GenericResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,14 +24,29 @@ import java.util.Optional;
 @AllArgsConstructor
 public class PubblicazioneService {
     private final PubblicazioneRepository pubblicazioneRepository;
+    private final AbbonamentoRepository abbonamentoRepository;
     private final ArticoloRepository articoloRepository;
     private final UtenteRepository utenteRepository;
+    private final UtentePubblicazioneRelationRepository utenteRelationRepository;
 
     //CREATE
-    @Transactional
-    public GenericResponse<Pubblicazione> insertPubblicazione(PubblicazioneRegistration registration) {
-        if(existArticles(registration.getListaArticoliId())) {
-            pubblicazioneRepository.insert(new Pubblicazione(registration));
+    @Transactional(rollbackFor = Exception.class)
+    public GenericResponse<Pubblicazione> insertPubblicazione(PubblicazioneRegistration registration) throws Exception {
+        if(!abbonamentoRepository.existsAbbonamentoByArgomento(registration.getArgomento())) {
+            return new GenericResponse<>(null, "Argomento does not exists", HttpStatus.NOT_FOUND.value());
+        }
+        if(articoloRepository.existsArticolosById(registration.getListaArticoliId())) {
+            val pubblicazione = new Pubblicazione(registration.getPrezzo(), registration.getArgomento());
+            for(Articolo articolo : articoloRepository.findArticolosById(registration.getListaArticoliId())) {
+                if(articolo.getPubblicazioneID() == null) {
+                    throw new Exception("Articolo already assigned to a Pubblicazione");
+                }
+                else {
+                    articolo.setPubblicazioneID(pubblicazione.getId());
+                    articoloRepository.save(articolo);
+                }
+            }
+            pubblicazioneRepository.insert(pubblicazione);
             return new GenericResponse<>(null , null, HttpStatus.OK.value());
         }
         else {
@@ -57,8 +72,13 @@ public class PubblicazioneService {
     public GenericResponse<Pubblicazione> updatePubblicazione(Pubblicazione pubblicazione) {
         return pubblicazioneRepository.findById(pubblicazione.getId())
                 .map(p -> {
-                    pubblicazioneRepository.save(pubblicazione);
-                    return new GenericResponse<>((Pubblicazione)null, null, HttpStatus.OK.value());
+                    if(!p.getArgomento().equals(pubblicazione.getArgomento()) && !abbonamentoRepository.existsAbbonamentoByArgomento(pubblicazione.getArgomento())) {
+                        return new GenericResponse<>((Pubblicazione)null, "Argomento does not exist", HttpStatus.NOT_FOUND.value());
+                    }
+                    else {
+                        pubblicazioneRepository.save(pubblicazione);
+                        return new GenericResponse<>((Pubblicazione)null, null, HttpStatus.OK.value());
+                    }
                 })
                 .orElse(new GenericResponse<>(null, "Pubblicazione ID not found", HttpStatus.NOT_FOUND.value()));
     }
@@ -68,6 +88,7 @@ public class PubblicazioneService {
     public GenericResponse<Pubblicazione> deletePubblicazioneById(String pubblicazioneId) {
         return pubblicazioneRepository.findById(pubblicazioneId)
                 .map(p -> {
+                    utenteRelationRepository.deleteUtentePubblicazioneRelationsByPubblicazioneId(pubblicazioneId);
                     pubblicazioneRepository.deleteById(pubblicazioneId);
                     return new GenericResponse<>((Pubblicazione)null, null, HttpStatus.OK.value());
                 })
@@ -88,21 +109,30 @@ public class PubblicazioneService {
         else {
             val pubblicazione = pubblicazioneOpt.get();
             val utente = utenteOpt.get();
-            pubblicazione.getListaUtentiId().add(utente.getId());
             pubblicazioneRepository.save(pubblicazione);
+            utenteRelationRepository.insert(new UtentePubblicazioneRelation(utente.getId(), pubblicazione.getId()));
             return new GenericResponse<>(null, null, HttpStatus.OK.value());
         }
     }
 
+    @Transactional
     public GenericResponse<List<String>> getUsersListById(String pubblicazioneId){
-        return pubblicazioneRepository.findById(pubblicazioneId)
-            .map(p -> new GenericResponse<>(p.getListaUtentiId(), null, HttpStatus.OK.value()))
-            .orElse(new GenericResponse<>(null, "Pubblicazione ID not found", HttpStatus.NOT_FOUND.value()));
+        if(!pubblicazioneRepository.existsById(pubblicazioneId)) {
+            return new GenericResponse<>(null, "Pubblicazione ID not found", HttpStatus.NOT_FOUND.value());
+        }
+        val usersList =  utenteRelationRepository.findUtentePubblicazioneRelationsByPubblicazioneId(pubblicazioneId).stream()
+                .map(UtentePubblicazioneRelation::getUtenteId)
+                .toList();
+        return new GenericResponse<>(usersList, null, HttpStatus.OK.value());
     }
 
     public GenericResponse<List<String>> getArticlesListById(String pubblicazioneId){
-        return pubblicazioneRepository.findById(pubblicazioneId)
-                .map(p -> new GenericResponse<>(p.getListaArticoliId(), null, HttpStatus.OK.value()))
-                .orElse(new GenericResponse<>(null, "Pubblicazione ID not found", HttpStatus.NOT_FOUND.value()));
+        if(!pubblicazioneRepository.existsById(pubblicazioneId)) {
+            return new GenericResponse<>(null, "Pubblicazione ID not found", HttpStatus.NOT_FOUND.value());
+        }
+        val articlesList = articoloRepository.findArticolosByPubblicazioneID(pubblicazioneId).stream()
+                .map(Articolo::getId)
+                .toList();
+        return new GenericResponse<>(articlesList, null, HttpStatus.OK.value());
     }
 }

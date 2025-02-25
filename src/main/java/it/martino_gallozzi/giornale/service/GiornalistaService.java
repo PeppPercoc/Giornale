@@ -2,6 +2,7 @@ package it.martino_gallozzi.giornale.service;
 
 import it.martino_gallozzi.giornale.dto.GiornalistaRegistration;
 import it.martino_gallozzi.giornale.entity.Giornalista;
+import it.martino_gallozzi.giornale.repository.ArticoloGiornalistaRelationRepository;
 import it.martino_gallozzi.giornale.repository.GiornalistaRepository;
 import it.martino_gallozzi.giornale.response.GenericResponse;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,9 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class GiornalistaService {
+
     private final GiornalistaRepository giornalistaRepository;
+    private final ArticoloGiornalistaRelationRepository articoloRelationRepository;
 
     //CREATE
     public GenericResponse<Giornalista> registerGiornalista(GiornalistaRegistration registartion) {
@@ -32,10 +35,10 @@ public class GiornalistaService {
     }
 
     public GenericResponse<List<Giornalista>> getGiornalistaByName(String giornalistaNome) {
-        return giornalistaRepository.findGiornalistaByNome(giornalistaNome)
-                .map(l -> new GenericResponse<>(l, null, HttpStatus.OK.value()))
-                .orElse(new GenericResponse<>(null, "Giornalista not found", HttpStatus.NOT_FOUND.value()));
+        val journalistsList = giornalistaRepository.findGiornalistasByNome(giornalistaNome);
+        return new GenericResponse<>(journalistsList, null, HttpStatus.OK.value());
     }
+
     //UPDATE
     @Transactional
     public GenericResponse<Giornalista> updateGiornalista(Giornalista giornalista) {
@@ -53,6 +56,7 @@ public class GiornalistaService {
         return giornalistaRepository.findById(giornalistaId)
                 .map(g -> {
                     giornalistaRepository.deleteById(giornalistaId);
+                    articoloRelationRepository.deleteArticoloGiornalistaRelationsByGiornalistaId(giornalistaId);
                     return new GenericResponse<>((Giornalista) null, null, HttpStatus.OK.value());
                 })
                 .orElse(new GenericResponse<>(null, "Giornalista ID not found", HttpStatus.NOT_FOUND.value()));

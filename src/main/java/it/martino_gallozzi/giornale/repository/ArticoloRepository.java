@@ -10,5 +10,8 @@ import java.util.Optional;
 @Repository
 public interface ArticoloRepository extends MongoRepository<Articolo, String> {
     List<Articolo> findArticoloByTitolo(String titolo);
+    List<Articolo> findArticolosById(List<String> ids);
     long countByIdIn (List<String> listaArticoliId);
+    List<Articolo> findArticolosByPubblicazioneID(String pubblicazioneId);
+    boolean existsArticolosById(List<String> ids);
 }
