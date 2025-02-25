@@ -8,7 +8,6 @@ import it.martino_gallozzi.giornale.repository.ArticoloGiornalistaRelationReposi
 import it.martino_gallozzi.giornale.repository.GiornalistaRepository;
 import it.martino_gallozzi.giornale.response.GenericResponse;
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
 import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,7 @@ public class ArticoloService {
     @Transactional
     public GenericResponse<Articolo> insertArticolo(ArticoloRegistration registration) {
 
-        if (!giornalistaRepository.existsAllByGiornalistaId(registration.getListaGiornalistiId())) {
+        if (!giornalistaRepository.existsAllById(registration.getListaGiornalistiId())) {
             return new GenericResponse<>(null, "Giornalista not found", HttpStatus.NOT_FOUND.value());
         }
 
