@@ -23,7 +23,7 @@ public class AbbonamentoService {
 
     //CREATE
     public GenericResponse<Abbonamento> insertAbbonamento(String argomento, String periodicita) {
-        if(abbonamentoRepository.findByArgomento(argomento).isEmpty())
+        if(abbonamentoRepository.findByArgomento(argomento).isPresent())
             return new GenericResponse<>(null, "Abbonamento already exists", HttpStatus.NOT_ACCEPTABLE.value());
         Abbonamento abbonamento = new Abbonamento(argomento, periodicita);
         abbonamentoRepository.insert(abbonamento);
@@ -31,27 +31,16 @@ public class AbbonamentoService {
     }
 
     //READ
-    public GenericResponse<Abbonamento> getAbbonamentoByArgomento(String abbonamentoArgomento) {
-        return abbonamentoRepository.findById(abbonamentoArgomento)
+    public GenericResponse<Abbonamento> getAbbonamentoById(String abbonamentoId) {
+        return abbonamentoRepository.findById(abbonamentoId)
                 .map(a -> new GenericResponse<>(a, null, HttpStatus.OK.value()))
-                .orElse(new GenericResponse<>(null, "Articolo not found", HttpStatus.NOT_FOUND.value()));
-    }
-
-    @Transactional
-    public GenericResponse<List<String>> getUsersByArgomento(String abbonamentoId) {
-        if(!abbonamentoRepository.existsById(abbonamentoId)) {
-            return new GenericResponse<>(null, "Argomento abbonamento not found", HttpStatus.NOT_FOUND.value());
-        }
-        val usersList = utenteRelationRepository.findUtenteAbbonamentoRelationsByAbbonamentoId(abbonamentoId).stream()
-                .map(UtenteAbbonamentoRelation::getUtenteId)
-                .toList();
-        return new GenericResponse<>(usersList, null, HttpStatus.OK.value());
+                .orElse(new GenericResponse<>(null, "Abbonamento not found", HttpStatus.NOT_FOUND.value()));
     }
 
     //UPDATE
     @Transactional
     public GenericResponse<Abbonamento> updateAbbonamento(Abbonamento abbonamento) {
-        return abbonamentoRepository.findById(abbonamento.getArgomento())
+        return abbonamentoRepository.findById(abbonamento.getId())
                 .map(a -> {
                     abbonamentoRepository.save(abbonamento);
                     return new GenericResponse<>((Abbonamento) null, null, HttpStatus.OK.value());
@@ -78,7 +67,7 @@ public class AbbonamentoService {
         val utenteOpt = utenteRepository.findById(utenteId);
 
         if (abbonamentoOpt.isEmpty()) {
-            return new GenericResponse<>(null, "Abbonamento argomento not found", HttpStatus.NOT_FOUND.value());
+            return new GenericResponse<>(null, "Abbonamento Id not found", HttpStatus.NOT_FOUND.value());
         }
         else if (utenteOpt.isEmpty()) {
             return new GenericResponse<>(null, "Utente ID not found", HttpStatus.NOT_FOUND.value());
@@ -103,7 +92,7 @@ public class AbbonamentoService {
         val utenteOpt = utenteRepository.findById(utenteId);
 
         if (abbonamentoOpt.isEmpty()) {
-            return new GenericResponse<>(null, "Abbonamento argomento not found", HttpStatus.NOT_FOUND.value());
+            return new GenericResponse<>(null, "Abbonamento Id not found", HttpStatus.NOT_FOUND.value());
         }
         else if (utenteOpt.isEmpty()) {
             return new GenericResponse<>(null, "Utente ID not found", HttpStatus.NOT_FOUND.value());
@@ -112,11 +101,12 @@ public class AbbonamentoService {
             val abbonamento = abbonamentoOpt.get();
             val utente = utenteOpt.get();
             if(utenteRelationRepository.existsUtenteAbbonamentoRelationByUtenteIdAndAbbonamentoId(utente.getId(), abbonamento.getId())) {
-                return new GenericResponse<>(null, "User already subscribed", HttpStatus.NOT_ACCEPTABLE.value());
-            }
-            else {
                 utenteRelationRepository.deleteUtenteAbbonamentoRelationByUtenteIdAndAbbonamentoId(utente.getId(), abbonamento.getId());
                 return new GenericResponse<>(null, null, HttpStatus.OK.value());
+            }
+            else {
+                return new GenericResponse<>(null, "User already subscribed", HttpStatus.NOT_ACCEPTABLE.value());
+
             }
         }
     }

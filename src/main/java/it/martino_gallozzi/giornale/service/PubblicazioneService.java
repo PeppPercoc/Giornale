@@ -27,13 +27,14 @@ public class PubblicazioneService {
     //CREATE
     @Transactional(rollbackFor = Exception.class)
     public GenericResponse<Pubblicazione> insertPubblicazione(PubblicazioneRegistration registration) throws Exception {
-        if(!abbonamentoRepository.existsAbbonamentoByArgomento(registration.getArgomento())) {
+        if(!abbonamentoRepository.existsById(registration.getAbbonamentoId())) {
             return new GenericResponse<>(null, "Argomento does not exists", HttpStatus.NOT_FOUND.value());
         }
         if(articoloRepository.existsArticolosById(registration.getListaArticoliId())) {
-            val pubblicazione = new Pubblicazione(registration.getPrezzo(), registration.getArgomento());
+            val pubblicazione = new Pubblicazione(registration.getPrezzo(), registration.getAbbonamentoId());
+            pubblicazioneRepository.insert(pubblicazione);
             for(Articolo articolo : articoloRepository.findArticolosById(registration.getListaArticoliId())) {
-                if(articolo.getPubblicazioneID() == null) {
+                if(articolo.getPubblicazioneID() != null) {
                     throw new Exception("Articolo already assigned to a Pubblicazione");
                 }
                 else {
@@ -41,7 +42,6 @@ public class PubblicazioneService {
                     articoloRepository.save(articolo);
                 }
             }
-            pubblicazioneRepository.insert(pubblicazione);
             return new GenericResponse<>(null , null, HttpStatus.OK.value());
         }
         else {
@@ -132,7 +132,7 @@ public class PubblicazioneService {
                             .toList();
                     return new GenericResponse<>(pubList, null, HttpStatus.OK.value());
                 })
-                .orElse(new GenericResponse<>(null, "Abbonamento ID not found", HttpStatus.NOT_FOUND.value()));
+                .orElse(new GenericResponse<>(null, "Abbonamento Id not found", HttpStatus.NOT_FOUND.value()));
     }
 
 }

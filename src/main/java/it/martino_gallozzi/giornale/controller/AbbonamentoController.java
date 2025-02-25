@@ -18,22 +18,17 @@ public class AbbonamentoController {
 
     @PostMapping("insert-abbonamento")
     public GenericResponse<Abbonamento> insertAbbonamento(@RequestBody Map<String, String> params) {
-        return abbonamentoService.insertAbbonamento(params.get("argomento"), params.get("periodicita"));
+        return abbonamentoService.insertAbbonamento(params.get("abbonamentoId"), params.get("periodicita"));
     }
 
-    @GetMapping("get-by-argomento/{abbonamentoArgomento}")
-    public GenericResponse<Abbonamento> getAbbonamentoByArgomento(@PathVariable String abbonamentoArgomento){
-        return abbonamentoService.getAbbonamentoByArgomento(abbonamentoArgomento);
-    }
-
-    @GetMapping("get-users-by-argomento/{abbonamentoArgomento}")
-    public GenericResponse<List<String>> getUsersByArgomento(@PathVariable String abbonamentoArgomento) {
-        return abbonamentoService.getUsersByArgomento(abbonamentoArgomento);
+    @GetMapping("get-by-id/{abbonamentoId}")
+    public GenericResponse<Abbonamento> getAbbonamentoById(@PathVariable String abbonamentoId){
+        return abbonamentoService.getAbbonamentoById(abbonamentoId);
     }
 
     @DeleteMapping("delete")
     public GenericResponse<Abbonamento> deleteAbbonamento(@RequestBody Map<String, String> params) {
-        return abbonamentoService.deleteAbbonamentoById(params.get("argomento"));
+        return abbonamentoService.deleteAbbonamentoById(params.get("abbonamentoId"));
     }
 
     @PutMapping("update")
@@ -43,17 +38,17 @@ public class AbbonamentoController {
 
     @PutMapping("add-subscription")
     public GenericResponse<Abbonamento> addSubscriptionById(@RequestBody Map<String, String> params) {
-        return abbonamentoService.addSubscriptionById(params.get("argomento"), params.get("utenteId"));
+        return abbonamentoService.addSubscriptionById(params.get("abbonamentoId"), params.get("utenteId"));
     }
 
     @DeleteMapping("cancel-subscription")
     public GenericResponse<Abbonamento> cancelSubscriptionById(@RequestBody Map<String, String> params){
-        return abbonamentoService.cancelSubscriptionById(params.get("argomentoAbbonamento"), params.get("utenteId"));
+        return abbonamentoService.cancelSubscriptionById(params.get("abbonamentoId"), params.get("utenteId"));
     }
 
-    @GetMapping("get-subscribers/{abbonamentoArgomento}")
-    public GenericResponse<List<String>> getSubscribersListById(@PathVariable String abbonamentoArgomento){
-        return abbonamentoService.getSubscribersListByArgomento(abbonamentoArgomento);
+    @GetMapping("get-subscribers/{abbonamentoId}")
+    public GenericResponse<List<String>> getSubscribersListByAbbonamentoId(@PathVariable String abbonamentoId){
+        return abbonamentoService.getSubscribersListByArgomento(abbonamentoId);
     }
 
 }
