@@ -2,23 +2,18 @@ package it.martino_gallozzi.giornale.service;
 
 import it.martino_gallozzi.giornale.dto.PubblicazioneRegistration;
 import it.martino_gallozzi.giornale.entity.Articolo;
-import it.martino_gallozzi.giornale.entity.Giornalista;
 import it.martino_gallozzi.giornale.entity.Pubblicazione;
 import it.martino_gallozzi.giornale.relation.UtentePubblicazioneRelation;
 import it.martino_gallozzi.giornale.repository.*;
 import it.martino_gallozzi.giornale.response.GenericResponse;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Generated;
 import lombok.NonNull;
 import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -54,14 +49,6 @@ public class PubblicazioneService {
         }
     }
 
-    private boolean existArticles(@NonNull List<String> listArticlesId){
-        if (listArticlesId.isEmpty())
-            return false;
-
-        long count = articoloRepository.countByIdIn(listArticlesId);
-        return count == listArticlesId.size();
-    }
-
     public GenericResponse<Pubblicazione> getPubblicazioneById(String pubblicazioneId){
         return pubblicazioneRepository.findById(pubblicazioneId)
             .map(p -> new GenericResponse<>(p, null, HttpStatus.OK.value()))
@@ -72,7 +59,7 @@ public class PubblicazioneService {
     public GenericResponse<Pubblicazione> updatePubblicazione(Pubblicazione pubblicazione) {
         return pubblicazioneRepository.findById(pubblicazione.getId())
                 .map(p -> {
-                    if(!p.getArgomento().equals(pubblicazione.getArgomento()) && !abbonamentoRepository.existsAbbonamentoByArgomento(pubblicazione.getArgomento())) {
+                    if(!p.getAbbonamentoId().equals(pubblicazione.getAbbonamentoId()) && !abbonamentoRepository.existsAbbonamentoByArgomento(pubblicazione.getAbbonamentoId())) {
                         return new GenericResponse<>((Pubblicazione)null, "Argomento does not exist", HttpStatus.NOT_FOUND.value());
                     }
                     else {
@@ -135,4 +122,17 @@ public class PubblicazioneService {
                 .toList();
         return new GenericResponse<>(articlesList, null, HttpStatus.OK.value());
     }
+
+    @Transactional
+    public GenericResponse<List<String>> getAllByAbbonamento(String abbonamentoId) {
+        return abbonamentoRepository.findById(abbonamentoId)
+                .map(a -> {
+                    val pubList = pubblicazioneRepository.findPubblicazionesByAbbonamentoId(a.getId()).stream()
+                            .map(Pubblicazione::getId)
+                            .toList();
+                    return new GenericResponse<>(pubList, null, HttpStatus.OK.value());
+                })
+                .orElse(new GenericResponse<>(null, "Abbonamento ID not found", HttpStatus.NOT_FOUND.value()));
+    }
+
 }

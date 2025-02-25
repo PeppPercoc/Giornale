@@ -58,4 +58,9 @@ public class PubblicazioneController {
     public GenericResponse<List<String>> getArticlesListById(@PathVariable String pubblicazioneId){
         return pubblicazioneService.getArticlesListById(pubblicazioneId);
     }
+
+    @GetMapping("get-by-abbonamento/{abbonamentoId}")
+    public GenericResponse<List<String>> getAllByAbbonamento(@PathVariable String abbonamentoId) {
+        return pubblicazioneService.getAllByAbbonamento(abbonamentoId);
+    }
 }

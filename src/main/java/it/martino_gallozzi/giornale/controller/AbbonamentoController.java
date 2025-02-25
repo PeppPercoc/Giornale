@@ -55,4 +55,5 @@ public class AbbonamentoController {
     public GenericResponse<List<String>> getSubscribersListById(@PathVariable String abbonamentoArgomento){
         return abbonamentoService.getSubscribersListByArgomento(abbonamentoArgomento);
     }
+
 }
