@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface PubblicazioneRepository extends MongoRepository<Pubblicazione, String> {
-    List<Pubblicazione> findPubblicazionesByAbbonamentoId(String argomento);
+    List<Pubblicazione> findPubblicazionesByAbbonamentoArgomento(String abbonamentoArgomento);
 
 }

@@ -8,6 +8,6 @@ import java.util.List;
 @Data
 public class PubblicazioneRegistration {
     private Float prezzo;
-    private String abbonamentoId;
+    private String abbonamentoArgomento;
     private List<String> listaArticoliId = new ArrayList<>();
 }

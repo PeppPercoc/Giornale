@@ -18,10 +18,10 @@ public class Pubblicazione {
     @Id
     private String id;
     private Float prezzo;
-    private String abbonamentoId;
+    private String abbonamentoArgomento;
 
-    public Pubblicazione(Float prezzo, String abbonamentoId) {
+    public Pubblicazione(Float prezzo, String abbonamentoArgomento) {
         this.prezzo = prezzo;
-        this.abbonamentoId = abbonamentoId;
+        this.abbonamentoArgomento = abbonamentoArgomento;
     }
 }
