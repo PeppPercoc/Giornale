@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Document
@@ -19,10 +19,10 @@ public class Pubblicazione {
     private Float prezzo;
     private String abbonamentoArgomento;
     @Nullable
-    private LocalDate date;
+    private LocalDateTime date;
     public Pubblicazione(Float prezzo, String abbonamentoArgomento) {
         this.prezzo = prezzo;
         this.abbonamentoArgomento = abbonamentoArgomento;
-        this.date = LocalDate.now();
+        this.date = LocalDateTime.now();
     }
 }
