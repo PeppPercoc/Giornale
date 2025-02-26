@@ -1,14 +1,13 @@
 package it.martino_gallozzi.giornale.entity;
 
-import it.martino_gallozzi.giornale.dto.PubblicazioneRegistration;
+import com.mongodb.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 @Data
 @Document
@@ -19,9 +18,11 @@ public class Pubblicazione {
     private String id;
     private Float prezzo;
     private String abbonamentoArgomento;
-
+    @Nullable
+    private LocalDate date;
     public Pubblicazione(Float prezzo, String abbonamentoArgomento) {
         this.prezzo = prezzo;
         this.abbonamentoArgomento = abbonamentoArgomento;
+        this.date = LocalDate.now();
     }
 }
